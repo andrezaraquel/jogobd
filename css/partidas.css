@@ -1,0 +1,177 @@
+/*
+Classe de estilo para a pagina das partidas jogadas pelo jogador.
+
+authors: Andreza Raquel e Dandara Navarro
+*/
+*   { 
+font-family:Consolas 
+}
+
+td:hover{
+	cursor: pointer;
+}
+
+.posicaoAvatar{
+position: relative;
+left: 0px;
+top: 0px;
+}
+
+
+#nomeJogador,#nivelJogador, #divPlacar, #divContador{
+font-size: 20px;
+}
+
+#contadorRegressivo{
+font-size: 20px;
+color: blue;
+}
+
+
+.destaque, table tbody tr.selected td{
+	background: #F06 !important;
+	color: #fff !important;
+}
+
+h1{
+text-align: center;
+}
+
+h2, h3, h4, h5, h6{
+color: #fff !important;
+}
+
+.tabelaDoJogo{
+	font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif;font-size:120%;
+	text-align:left;
+	border-collapse:collapse;
+	width: 100%;
+	margin: 1%;
+}
+
+.tabelaDoJogo  th{
+	font-size:120%;
+	font-weight:normal;
+	padding:8px;	
+}
+
+.cursor {
+	cursor: pointer;
+}
+
+.marcouCerto, table tbody tr.marcouCerto td{
+background: #5cb85c !important;
+}
+
+.erroNaoMarcado, table tbody tr.erroNaoMarcado td{
+background: #f0ad4e !important;
+}
+
+.marcouErrado, table tbody tr.marcouErrado td {
+background:  #d9534f !important;
+}
+
+.hover {
+background-image: linear-gradient(to bottom, transparent, rgba(0,0,0,.15));
+cursor: pointer;
+}
+
+.botaoAvancar {
+font:bold 21px Tahoma, Geneva, sans-serif;
+font-style:normal;
+border:0px solid #ffffff;
+color:#ffffff;
+-moz-box-shadow:0px 0px 0px #000000;
+-webkit-box-shadow:0px 0px 0px #000000;
+border-radius:2px 2px 2px 2px;
+-moz-border-radius:10px 10px 10px 10px;
+-webkit-border-radius:10px 10px 10px 10px;
+padding:11px 62px;
+position: relative;
+margin-top: 0%;
+margin:3% auto;
+margin-left: 42%;
+}
+
+
+
+.enable {
+background:#1E90FF; 
+box-shadow:6px 2px 5px #000000;
+}
+
+.disable {
+background-color: #D3D3D3 ;
+box-shadow:0px 0px 0px #000000;
+}
+
+.botaoAvancar.enable:active{
+box-shadow:0px 0px 0px #000000;
+}
+
+#divScore {
+position: relative;
+text-align: right;
+margin-right: 10%;
+font-weight: bolder;
+font-size: 200%;
+float:right ;
+}
+
+#divInformes{
+position: relative;
+float:left ;
+text-align: left;
+margin-left: 10%;
+font-weight: bolder;
+font-size: 200%;
+width: auto;
+}
+
+#divResultado {
+position: relative;
+float:left ;
+text-align: left;
+margin-left: 10%;
+font-weight: bolder;
+font-size: 200%;
+clear:both;
+width: auto;
+
+}
+
+.linhaErro{
+	background: #63B8FF;
+}
+
+.dica{
+	cursor: pointer;
+	top: 10px;
+	border: 0px solid;
+	position: absolute;
+	width: 74px;
+	height: 110px;
+}
+
+
+.dica1Sel{
+	background-image:url("../img/boneco-dica1-sel.png");
+	right: 0px;
+	margin-right: 9%;
+}
+
+
+.dica2Sel{
+	background-image:url("../img/boneco-dica2-sel.png");
+	right: 0px;
+	margin-right: 1%;
+}
+
+ul#opcoesDoJogo li a img{
+	padding-right:3px;
+	vertical-align:middle;
+}
+
+.progress-bar-desativado{
+	background-color: #D3D3D3;
+}

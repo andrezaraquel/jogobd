@@ -1,25 +1,176 @@
 body{
-	background-color: #1E90FF;
+	background-color: rgb(82, 129, 199); 
+	color:white;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.bonecoIndex{
+	width: 60%;
+	height: 80%;
+	left: 13%;
+	top: 3%;
+	position: absolute;
+
+}
+
+.conteudo {
+	margin-top: 5%;
+	background-color: white;
+	border-radius: 54%;
+	padding: 5%;
+	height: 50%;
+	width: 50%;
+	color: black;
+	-moz-box-shadow: 4px 3px 5px 0px rgba(50, 50, 50, 0.75);
+	box-shadow: 4px 3px 5px 0px rgba(50, 50, 50, 0.75);
+	min-height: 364px; 
+	min-width: 328px;
+	
+}
+
+.botaoInicial{
+	font-family: arial;
+	border-radius: 70%;
+}
+
+
+#tudo{
+        width: 60%;
+        margin:0 auto;         
+        text-align:left;
+}
+
+#conteudo {
+        position: relative;
+        padding: 320px 0px;
+        background-color: #1E90FF;
+        border-radius: 5px;
+
 }
 
 #menu{
-	width : 600px;
-	height : 300px;
-	background : blue;
-	margin: 0 auto;
+        position: absolute;
+        text-align: center;
+        top: 200px;
+        margin-left: 280px;
 }
 
-.investigador{
-	position: absolute;
-	margin-left: 20%;
-	margin-top: 5%;
-}
+
 
 #nomeJogo{
 	position: absolute;
-	margin-left: 35%;
-	font-size: 100%;
-	font-family: arial, sans-serif;
-	line-height: 100%;
+	margin-left: 280px;
+	top: 55px;	
+	font-size: 220%;
+	text-shadow:#000 1px -1px 2px, #000 -1px 1px 2px, #000 1px 1px 2px, #000 -1px -1px 2px;
+	font-family: arial black, sans-serif;
+	color: #152fdb;
+}
 
+#mensagemInicial{
+	position: absolute;
+	margin-left: 5px;
+	margin-right: 360px;
+	top: 140px;
+	text-align: center;
+}
+
+
+#posAvatar{
+	margin-left: 35%;
+}
+
+.botoesIndex{
+	margin-top: 25%;
+	position: relative;
+	
+}
+
+
+.posAnalista{
+	position:absolute;
+	left: 460px;
+	
+	top: 10px;
+	z-index:1;
+}
+.investigador{
+	 position: absolute;
+     top: 2px;
+     margin-left: 116px;
+	
+}
+
+.botaoEntrar{
+	   display: block;
+       border-color: #999 #000 #000 #999;
+
+       border: 1px solid;
+       width: 50%;
+
+       background: #D1EEEE; 
+       color: #000;
+
+       font: arial black;
+       font-size: 100%;
+       font-weight: bold;
+       text-align: center;
+       
+       margin-bottom: 8%;
+	   margin-top: 10%;
+	   margin-left: 28%;
+	   border-radius: 5px;
+}
+
+.botaoEntrar:hover{
+	   cursor: pointer;
+	   position: relative;
+       top: 1px;
+       left: 1px;
+       border-color: #000 #999 #999 #000; 
+       background: #104E8B; 
+       color: #FFF;
+}
+
+.inn{
+		float:left;
+		font-size:14px;
+		
+		width:143px;
+		font-family:Arial, Helvetica, sans-serif;
+		color:#0066CC;
+		font-weight:bold;
+				
+}
+
+#formulario{
+	position: absolute;
+	left: 300px;
+	top: 250px;
+}
+
+
+
+.botaoAvanca{
+	padding: 48px 35px;
+	background-image:url("../img/seta.png");
+	cursor: pointer;
+	top: 300px;
+	border: 0px solid;
+	margin-right: 1%;
+	position: absolute;
+	right: 0px;
+	
+	
+}
+
+.botaoAvanca:hover{
+	padding: 48px 35px;
+	background-image:url("../img/seta1.png");
+}
+
+.bonecoCreditos{
+	height: 30%;
+	width: 30%;
 }

@@ -1,0 +1,60 @@
+.window{
+	display:none;
+	width:350px;
+	height:300px;
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:9900;
+	padding:2px;
+	border-radius:0px;
+	background-image: url("../img/classificados/descricao.png");
+	border: 6px solid red;
+}
+
+.confirmaEmprego{
+	margin-top: 50px;
+	margin-left: 25px;
+	margin-right: 135px;
+	text-align: center;
+	line-height: 10px;
+}
+
+
+#mascara{
+    display:none;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:9000;
+    background-color:#000;
+}
+
+.botaoAceita{
+	padding: 22px 22px;
+	background-image:url("../img/classificados/aceita.png");
+	cursor: pointer;
+	border: 0px solid;
+	margin-left: 45px;
+	top: 200px;
+	position: absolute;
+}
+
+.botaoAceita:hover{
+	background-image:url("../img/classificados/aceita-sel.png");
+}
+
+.botaoRejeita{
+	padding: 22px 22px;
+	background-image:url("../img/classificados/rejeita.png");
+	cursor: pointer;
+	border: 0px solid;
+	margin-left: 145px;
+	top: 200px;
+	position: absolute;
+	
+}
+
+.botaoRejeita:hover{
+	background-image:url("../img/classificados/rejeita-sel.png");
+}

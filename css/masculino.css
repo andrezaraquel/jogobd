@@ -1,0 +1,77 @@
+/*Menino*/
+
+/*Cor do fundo dos classificados*/
+.corDoFundo{
+	background-color: #cee2fb;
+}
+
+/*Cor das td's*/
+.tabelaDoJogo td, .tabelaDeErros td{
+	background:#cee2fb;
+	border: 2px solid #a4c5f7;
+	padding:8px;
+}
+
+.tabelaDoJogo  th, .tabelaDeErros th{
+	background:#77A9F3;
+	border: 3px solid #4086EE;
+	color:#039;	
+}
+
+.barraNavegacao{
+	background-color: #cee2fb !important;
+}
+
+.navbar-default .navbar-nav>.active>a {
+	color: #555;
+	background-color:  #a4c5f7 !important;
+}
+
+/* BotÃ£o volta*/
+.media-carousel .carousel-control.left 
+{
+  left: 1%;
+  background-image: url("../img/seta-esquerda.png");
+  z-index:1;
+}
+/* BotÃ£o adianta */
+.media-carousel .carousel-control.right 
+{
+  right: 2% !important;
+  background-image:url("../img/seta-direita.png");
+}
+
+.dica1{
+	background-image:url("../img/boneco-dica1.png");
+	right: 0px;
+	margin-right: 9%;
+}
+
+.dica2{
+	background-image:url("../img/boneco-dica2.png");
+	right: 0px;
+	margin-right: 1%;
+}
+
+.boneco-dica{
+	background-image: url('../img/modal-dica1.png');
+	width: 74px;
+	height: 110px;
+	float:left;
+	margin:-20px 15px 5px 5px;
+}
+
+#contadorRegressivo{
+font-size: 20px;
+color: blue;
+}
+
+.destaque, table tbody tr.selected td{
+	background: blue !important;
+	color: #fff !important;
+}
+
+.enable {
+background: blue; 
+box-shadow:6px 2px 5px #000000;
+}

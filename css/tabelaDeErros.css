@@ -1,0 +1,58 @@
+	/* carousel */
+.media-carousel 
+{
+  margin-bottom: 0;
+  padding: 0 40px 30px 40px;
+  margin-top: 30px;
+}
+ 
+/*Botão*/
+.media-carousel .carousel-control{
+	padding: 10px 10px !important;
+	margin-top: 10%;
+	width: 9% !important;
+}
+ 
+
+ 
+/* Changes the position of the indicators */
+.media-carousel .carousel-indicators 
+{
+  right: 50%;
+  top: auto;
+  bottom: 0px;
+  margin-right: -19px;
+}
+ 
+.media-carousel img
+{
+  width: 300px;
+  height: 300px
+}
+.carousel-inner{
+	width: 80% !important;
+	margin-left: 10%;
+}
+/* End carousel */
+ 
+#tabelaDeErros{
+	font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif;font-size:12px;
+	text-align:center;
+	border-collapse:inherit;
+}
+ 
+#tabelaDeErros td{
+	background:#cee2fb;
+	border: 2px solid #a4c5f7;
+	padding:8px;
+}
+ 
+#tabelaDeErros  th{
+	font-size:13px;
+	font-weight:normal;
+	background:#77A9F3;
+	border: 3px solid #4086EE;
+	color:#039;
+	padding:8px;
+	text-align:center;
+}

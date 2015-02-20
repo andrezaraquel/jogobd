@@ -1,0 +1,180 @@
+#corpo{	
+	padding: 5% 15%;
+	height: 50%;
+	width: 50%;
+	text-align:center; 
+	color:white;
+}
+
+iframe{
+	margin:0 auto;         
+	text-align:left;
+	top: 0px;
+}
+
+#tudo{
+	width: 100%;
+	margin:0 auto;         
+	text-align:left;
+
+}
+
+#conteudo {
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+}
+
+.window{
+	margin-left: 34%;
+	margin-top: 14%;
+}
+
+.jornal{
+	background-image: url("../img/classificados/classificados.jpg");
+	background-repeat: no-repeat;
+	background-size: 940px 548px;
+	position: relative;
+	width: 940px;
+	height: 548px;
+	margin-left: 0%;
+	margin-top:0%;
+}
+.anuncio{
+	position: absolute;
+	border: 0px solid;
+	z-index:1;
+}
+.anuncio01{
+	left: 5px;
+	top: 86px;
+	padding: 93px 94px;
+}
+
+.anuncio01:hover{
+	background-image: url("../img/classificados/1-selecionado.png");
+	
+}
+
+
+.anuncio02{
+	left: 202px;
+	top: 87px;
+	padding: 89px 95px;
+	
+}
+
+.anuncio02:hover{
+	background-image: url("../img/classificados/2-clinica-selecionado.png");
+	
+}
+.anuncio03{
+	left: 403px;
+	top: 87px;
+	padding: 98px 95px;
+}
+
+.anuncio03:hover{
+	background-image: url("../img/classificados/3-aeroporto-selecionado.png");
+	
+}
+
+.anuncio04{
+	left: 603px;
+	top: 87px;
+	padding: 120px 95px;
+	
+}
+
+.anuncio04:hover{
+	background-image: url("../img/classificados/4-locadora-selecionado.png");
+
+}
+.anuncio05{
+	left: 803px;
+	top: 86px;
+	padding: 117px 65px;
+	
+}
+
+.anuncio05:hover{
+	background-image: url("../img/classificados/5-faculdade-selecionado.png");
+}
+
+.anuncio06{
+	left: 5px;
+	top: 280px;
+	padding: 122px 45px;
+	
+}
+
+.anuncio06:hover{
+	background-image: url("../img/classificados/6-farmacia-selecionado.png");
+	
+}
+
+.anuncio07{
+	left: 105px;
+	top: 280px;
+	padding: 122px 44px;
+}
+
+.anuncio07:hover{
+	background-image: url("../img/classificados/7-clube-selecionado.png");
+	
+}
+
+.anuncio08{
+	left: 208px;
+	top: 272px;
+	padding: 128px 90px;
+	
+}
+
+.anuncio08:hover{
+	background-image: url("../img/classificados/8-escola-selecionado.png");
+	
+}
+
+.anuncio09{
+	left: 402px;
+	top: 289px;
+	padding: 54px 93px;	
+}
+
+.anuncio09:hover{
+	background-image: url("../img/classificados/9-telemarketing-selecionado.png");
+}
+
+.anuncio10{
+	left: 399px;
+	top: 402px;
+	padding: 65px 95px;
+	
+}
+
+.anuncio10:hover{
+	background-image: url("../img/classificados/10-seguradora-selecionado.png");	
+}
+
+.anuncio11{
+	left: 602px;
+	top: 335px;
+	padding: 98px 96px;
+	
+}
+
+.anuncio11:hover{
+	background-image: url("../img/classificados/11-concessionaria-selecionado.png");
+	
+}
+
+.leitor{
+	position: absolute;
+	z-index:1;
+	left: 803px;
+	top: 320px;
+	padding: 108px 65px;
+	background-image: url("../img/leitor.jpg");
+}

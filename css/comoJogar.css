@@ -1,0 +1,26 @@
+h2{    
+    color: #666;
+    font-size: 30px;
+    font-family: "trebuchet ms", sans-serif;    
+}
+
+a{
+
+color: white;
+}
+
+body{
+	background: #B0C4DE;
+}
+
+.item{  
+	top: 0px !important;
+    text-align: center;
+    height: 650px !important;
+}
+.carousel{
+    margin-top: 0% !important;
+}
+.bs-example{
+	margin: 1% 17%;	
+}
