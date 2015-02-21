@@ -7,7 +7,7 @@ class Tabela {
 	private $corpoErro;
 
 	function __construct($nomeTabela) {
-		require_once("acessaBD.php");
+		require_once("database/acessaBD.php");
 		$this->nome = substr($nomeTabela, 0, strlen($nomeTabela) -2);
 		$this->setNomeColunas($nomeTabela);
 		$this->setCorpo($nomeTabela);
