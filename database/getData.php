@@ -22,4 +22,6 @@ $json = '{"numCenarios":$numCenarios, "salarioInicial":$salarioInicial, "nivelAt
 
 echo $json;
 
+mysql_close();
+
 ?>
