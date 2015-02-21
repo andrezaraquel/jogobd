@@ -9,11 +9,9 @@ require_once("includes/models.php");
 </head>
 <body>
 <?php
-$id_empresa = $_GET['id_empresa']; // Criacao da sessao com o id da empresa que o usuario selecionou
-
 // pesquisa o nivel do usuario atual
 $nivel = new Nivel($jogador->getNivel());
-$empresa = new Empresa($id_empresa);
+$empresa = new Empresa($_GET['id_empresa']); // Criacao da sessao com o id da empresa que o usuario selecionou
 
 $_SESSION['empresa'] = serialize($empresa);
 
@@ -21,7 +19,6 @@ $_SESSION['empresa'] = serialize($empresa);
 $_SESSION['salarioAtual'] = $_SESSION['salarioInicial'];
 $_SESSION['listaDeCenarios'] = array();
 $_SESSION['listaDeVitorias'] = array();
-$_SESSION['score'] = 0;
 
 setcookie("stringDeVitorias", implode("|", $_SESSION['listaDeVitorias']));
 setcookie("podeJogar", "true");
