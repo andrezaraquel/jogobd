@@ -1,6 +1,8 @@
 <?php
 require_once("includes/models.php");
 $nivel = new Nivel($jogador->getNivel());
+$partida = new Partida($nivel->getId(), $empresa->getId());
+$cenario = $partida->getCenarioAleatorio();
 ?>
 
 <?php

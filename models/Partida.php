@@ -1,5 +1,4 @@
 <?php
-
 require_once("Model.php");
 class Partida extends Model{
 	
@@ -23,9 +22,9 @@ class Partida extends Model{
 	}
 	
 	function getCenarioAleatorio() {
-		$numeroMaximoDeCenarios = numCenarios(); // Numero de cenarios cadastrados para cada empresa naquele nivel
-		$cenarioAleatorio = rand(1,$numeroMaximoDeCenarios); // Pesquisa um numero aleatoriamente para ser o cenario
-		if (!in_array( $cenarioAleatorio  , $this->cenariosJaApresentados)){
+		$numeroMaximoDeCenarios = pesquisaCenarioAleatorio(); // Numero de cenarios cadastrados para cada empresa naquele nivel
+		$cenarioAleatorio = rand(1, $numeroMaximoDeCenarios); // Pesquisa um numero aleatoriamente para ser o cenario
+		if (!in_array( $cenarioAleatorio, cenariosJaApresentados)){
 			return $cenarioAleatorio;
 		} 
 		
