@@ -94,18 +94,8 @@ function validaCampo(){
 }
 
 function validaEmail(field) { 
-	usuario = field.value.substring(0, field.value.indexOf("@")); 
-	dominio = field.value.substring(field.value.indexOf("@")+ 1,  field.value.length); 
-
-	if ((usuario.length >=1) && (dominio.length >=3) 
-		&& (usuario.search("@")==-1) && (dominio.search("@")==-1) 
-		&& (usuario.search(" ")==-1) && (dominio.search(" ")==-1) 
-		&& (dominio.search(".")!=-1) && (dominio.indexOf(".") >=1)
-		&& (dominio.lastIndexOf(".") < dominio.length - 1)) { 
-			return true; 
-	} else	{ 
-		return false;
-	} 
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	return re.test(field.value);
 }
 </script>
 

@@ -12,7 +12,7 @@
 				<div class="control-group">
 					<div class="input-group" style="width: 100%">
 						<label for="email" class="control-label">E-mail</label>
-						<input type="text" name="email" class="form-control" required placeholder="Insira seu email" maxlength="60" onblur="validaEmail(login.email)">
+						<input type="text" name="email" class="form-control" required placeholder="Insira seu email" maxlength="60" onchange="validaEmail(login.email)">
 						<div id="msgEmail"></div>
 					</div>
 					<div class="input-group" style="width: 100%">
@@ -30,3 +30,37 @@
 		</div>
 	</div>
 </div>
+
+
+<script>
+function validaEmail(field) { 
+	var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(field.value)) {
+		document.getElementById("msgEmail").innerHTML="E-mail válido"; 
+	} else {
+		document.getElementById("msgEmail").innerHTML="<font color='red'>E-mail inválido </font>";
+	}
+}
+
+$(function() {
+	$("#loginSubmitBtn").on("click", function() {
+		$("#loginForm").submit();
+	});
+
+	$("#loginForm").on("submit", function() {
+		$.ajax({
+			type: 'POST',
+			url: 'database/autentificaLogin.php',
+			data: $(this).serialize(),
+			success: function() {
+				window.location.href = "comoJogar.php";
+			},
+			error: function(data) {
+				$("#msgLoginError").css("display", "");
+				$("#msgLoginError p").html(data.statusText);
+			}
+		});
+		return false;
+	});
+});
+</script>

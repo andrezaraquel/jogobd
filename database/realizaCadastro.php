@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	
 	$query = mysql_query($strSQL1);
 	if (!$query) {
-		header("HTTP/1.1 400 E-mail já cadastrado.");
+		header("HTTP/1.1 400 E-mail j&#225; cadastrado.");
 		mysql_close();
 		die();
 	}
