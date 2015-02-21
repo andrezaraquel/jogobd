@@ -12,10 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	 
 	if (mysql_num_rows($sql) > 0){
 		session_start();
-		$_SESSION['email'] = $_POST['email'];
-		$_SESSION['nome'] = $cadastro['nome'];
-		$_SESSION['sexo'] = $cadastro['sexo'];
-		$_SESSION['id_nivel'] = $cadastro['id_nivel'];
+		$_SESSION['jogador'] = serialize(new Jogador($cadastro["nome"], $usuario_email, $senha_criptografada, $cadastro["id_nivel"], $cadastro["sexo"]));
 	} else{	
 		header("text: Email ou senha inválida", true, 400);
 	}
