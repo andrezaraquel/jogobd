@@ -14,7 +14,6 @@ $nivel = new Nivel($jogador->getNivel());
 $empresa = new Empresa($_GET['id_empresa']); // Criacao da sessao com o id da empresa que o usuario selecionou
 
 $_SESSION['empresa'] = serialize($empresa);
-
 $jogador->setSalarioAtual($nivel->getSalarioInicial());
 $_SESSION["jogador"] = serialize($jogador);
 ?>

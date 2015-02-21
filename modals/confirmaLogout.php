@@ -7,10 +7,16 @@
 			</header>
 			
 			<div class="modal-footer">					
-				<a class="btn btn-danger btn-large" href="classificados.php">Pedir Demissão</a>
+				<a class="btn btn-danger btn-large" href="classificados.php" onclick="demissao()">Pedir Demissão</a>
 				<a class="btn btn-danger btn-large" href="logout.php">Sair</a>
 			 </div>
 			
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+function demissao() {
+	unset($_SESSION["empresa"]);
+}
+</script>
