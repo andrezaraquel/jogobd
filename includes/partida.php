@@ -41,7 +41,7 @@ setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
 		</div>
 	</div>
 	<div class='col-sm-4' align='center'>
-		<div id = 'divPlacar'> R$<font id = 'placar'><?php $jogador->getSalarioAtual(); ?></font>,00</div>
+		<div id = 'divPlacar'> R$<font id = 'placar'><?php echo $jogador->getSalarioAtual(); ?></font>,00</div>
 	</div>
 	<div class='col-sm-4'  align='right'>
 		<font id = 'contadorRegressivo'><span id='clock1'></span><script id = 'script'></script></font>
