@@ -6,6 +6,7 @@ class Jogador extends Model {
 	private $login;
 	private $nivel;
 	private $sexo;
+	private $salarioAtual;
 	
 	function __construct($nome, $login, $nivel, $sexo){
 		$this->nome = $nome;
@@ -51,5 +52,8 @@ class Jogador extends Model {
 		mysql_close();	
 	}
 	
+	function setSalarioAtual($newSalario){
+		$this->salarioAtual = $newSalario;
+	}
 }
 ?>

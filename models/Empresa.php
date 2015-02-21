@@ -23,6 +23,7 @@ class Empresa extends Model {
 	
 	function getCenarios($nivel){
 		$query = mysql_query("SELECT id_cenario FROM cenario WHERE id_empresa = " . $this->id . " AND id_nivel = " . $nivel);
+		mysql_close();
 		return mysql_fetch_array($query);
 	}
 }
