@@ -9,7 +9,6 @@
 	
 	<link href="css/paginaInicial.css" rel="stylesheet">
 	
-	<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script> 
 	
 </head>  
 <body>  

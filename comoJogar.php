@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["jogador"])) { // se nao estiver logado...
+if (!isset($_SESSION['jogador'])) { // se nao estiver logado...
 	header("location: index.php"); // ...vai para a pagina inicial.
 	exit;
 } 
