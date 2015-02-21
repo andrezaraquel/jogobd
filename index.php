@@ -44,5 +44,7 @@ include_once("includes/navbar.php");
 
 <?php include_once("modals/login.php"); ?>
 
+<script type="text/javascript" src="js/login.js" />
+
 </body>
 </html>

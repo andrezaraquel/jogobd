@@ -1,31 +1,18 @@
 <?php
-session_start();
-
-if (!isset($_SESSION["email"])) {
-	header("Location: index.php");
-	exit;
-} 
+require_once("includes/models.php");
 ?>
-
 <!DOCTYPE html>
-<html lang="pt-br"> 
 <head> 
-	<meta charset="utf-8"> 
-
-	<title>Mr. Data Analyst</title>
 	<link rel="stylesheet" type="text/css" href="css/confirmaCenario.css">
 	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="js/proposta.js"></script>
 </head>
 <body>
 <?php
-include_once ('database/acessaBD.php'); // inclusao do arquivo de acesso ao banco de dados
-include_once("models/Nivel.php");
-
 $_SESSION['id_empresa'] = $_GET['id_empresa']; // Criacao da sessao com o id da empresa que o usuario selecionou
 
 // pesquisa o nivel do usuario atual
-$nivel = new Nivel($_SESSION['id_nivel']);
+$nivel = new Nivel($jogador->getNivel());
 
 $pesquisaEmpresa = mysql_query("SELECT * FROM empresa WHERE id_empresa = ". $_SESSION['id_empresa']);
 $empresa = mysql_fetch_array($pesquisaEmpresa);
