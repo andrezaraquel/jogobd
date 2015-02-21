@@ -1,17 +1,8 @@
 <!DOCTYPE html>
 <html lang="pt-br"> 
 <head>
-	<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
-<link  href="css/tabelaDeErros.css" rel="stylesheet">
- 
- <!--Muda as cores de alguns itens visuais do jogo dependendo do sexo do usu&aacute;rio-->	
-	<?php
-		if($_SESSION['sexo'] == 'feminino'){
-			echo "<link rel='stylesheet' type='text/css' href='css/feminino.css'/>";
-		}else{
-			echo "<link rel='stylesheet' type='text/css' href='css/masculino.css'/>";
-		}
-	?>
+	<?php require_once("includes/header.php"); ?>
+	<link  href="css/tabelaDeErros.css" rel="stylesheet">
  </head>
 <body>
 <div class="container">
@@ -21,7 +12,7 @@
         <div class="carousel-inner">		
           <div class="item  active">
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-12" style="padding: 50px;">
  
 					<table border="1px" class="tabelaDeErros">
 						<tr><th colspan="3" >Tabela de Erros Em Uma S&oacute; C&eacute;lula</th></tr>
@@ -86,7 +77,7 @@
                     
             </div>
           </div>
-          <div class="item">
+          <div class="item" style="padding: 50px;">
             <div class="row">
               <div class="col-sm-12">
                 
@@ -123,7 +114,7 @@
                    
             </div>
           </div>
-          <div class="item">
+          <div class="item" style="padding: 50px;">
             <div class="row">
               <div class="col-sm-12">
                
@@ -169,7 +160,7 @@
               </div>          
               </div>          
               </div> 
-			<div class="item">
+			<div class="item" style="padding: 50px;">
             <div class="row">
               <div class="col-sm-12">
             

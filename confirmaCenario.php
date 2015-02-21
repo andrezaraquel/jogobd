@@ -15,24 +15,18 @@ $empresa = new Empresa($_GET['id_empresa']); // Criacao da sessao com o id da em
 
 $_SESSION['empresa'] = serialize($empresa);
 
-//$_SESSION['salarioInicial'] = $nivel['salarioInicial']; // seleciona o salario referente ao nivel e guarda numa variavel
-$_SESSION['salarioAtual'] = $_SESSION['salarioInicial'];
-$_SESSION['listaDeCenarios'] = array();
-$_SESSION['listaDeVitorias'] = array();
-
-setcookie("stringDeVitorias", implode("|", $_SESSION['listaDeVitorias']));
-setcookie("podeJogar", "true");
+$jogador->setSalarioAtual($nivel->getSalarioInicial());
+$_SESSION["jogador"] = serialize($jogador);
 ?>
-	<div class="confirmaEmprego">	
-		<h4>Dados da Vaga:</h4>
-		<h5><?php echo $nivel->getNome(); ?></h5>
-		<h5>Sal&aacuterio Inicial: R$ <?php echo $nivel->getSalarioInicial(); ?></h5>
-		<h5>Empresa: <?php echo $empresa->getNome();?></h5>	
-	</div>
-		
-	<a href="javaScript:parent.location = 'jogo.php'" class='botaoAceita'></a>
-	<a href="javaScript:parent.location = 'classificados.php'" class='botaoRejeita'></a>
+<div class="confirmaEmprego">	
+	<h4>Dados da Vaga:</h4>
+	<h5><?php echo $nivel->getNome(); ?></h5>
+	<h5>Sal&aacuterio Inicial: R$ <?php echo $nivel->getSalarioInicial(); ?></h5>
+	<h5>Empresa: <?php echo $empresa->getNome(); ?></h5>	
+</div>
+	
+<a href="javaScript:parent.location = 'jogo.php'" class='botaoAceita'></a>
+<a href="javaScript:parent.location = 'classificados.php'" class='botaoRejeita'></a>
 
-<?php mysql_close();?>
 </body>
 </html>

@@ -9,4 +9,8 @@ foreach (glob("models/*.php") as $filename){
     include_once($filename);
 }
 $jogador = unserialize($_SESSION["jogador"]);
+
+if (isset($_SESSION["empresa"])) {
+	$empresa = unserialize($_SESSION["empresa"]);
+}
 ?>

@@ -2,13 +2,16 @@
 require_once("Model.php");
 class Jogador extends Model {
 	
+	public static $ULTIMO_NIVEL = 4;
+	
 	private $nome;
 	private $login;
 	private $nivel;
 	private $sexo;
 	private $salarioAtual;
 	
-	function __construct($nome, $login, $nivel, $sexo){
+	function __construct($nome, $login, $nivel, $sexo) {
+		parent::__construct();
 		$this->nome = $nome;
 		$this->login = $login;
 		$this->nivel = $nivel;
@@ -55,5 +58,10 @@ class Jogador extends Model {
 	function setSalarioAtual($newSalario){
 		$this->salarioAtual = $newSalario;
 	}
+	
+	function getSalarioAtual() {
+		return $this->salarioAtual;
+	}
+	
 }
 ?>

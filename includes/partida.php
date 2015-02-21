@@ -1,102 +1,51 @@
 <?php
-if(!isset($_SESSION)){
-	session_start();
-}
-	
-if(!isset($_SESSION['email']) || !isset($_SESSION['senha'])){
-    header('Location: index.php');
-}
+require_once("includes/models.php");
 ?>
+
 <?php
+/*
 if(count($_SESSION['listaDeCenarios']) > count($_SESSION['listaDeVitorias'])){
 				array_push($_SESSION['listaDeVitorias'], "n");
 }
 setcookie("stringDeVitorias", implode("|", $_SESSION['listaDeVitorias']));
 setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
+*/
 ?>
-
-
-
-<!DOCTYPE html>
-<html>
-	<head lang="pt-br">	
-		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="icon" href="img/favicon.ico">
-		<link rel="canonical" href="http://mrdataanalyst.pe.hu" />		
-
-		<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-		<script type="text/javascript" src="js/jquery.cookie.js"></script>
-		<link href="css/bootstrap.min.css" rel="stylesheet">
-		<link href="css/bootstrap-responsive.css" rel="stylesheet">
-		<link href="css/partidas.css" rel="stylesheet" />
-		
-		<script src="js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="js/partidas.js"></script>	
-		
-		<!--Muda as cores de alguns itens visuais do jogo dependendo do sexo do usuario-->	
-		<?php
-			if($_SESSION['sexo'] == 'feminino'){
-				echo "<link rel='stylesheet' type='text/css' href='css/feminino.css'/>";
-			}else{
-				echo "<link rel='stylesheet' type='text/css' href='css/masculino.css'/>";
-			}
-		?>
-		
-	</head>
-<body>
 
 <div class = "row class='col-sm-12'">
 	<h1 class="content-title">Mr. Data Analyst</h1>                   
 </div>
 
-<?php $imagem = "img/". $_SESSION['sexo']. ".png"; ?>
+<?php $imagem = "img/". $jogador->getSexo() . ".png"; ?>
 <img src = "<?php echo $imagem; ?>" width="64" height="80" class = "posicaoAvatar">	
 	
 <div class="row">	
 	<div class='col-sm-4'>
-		<font id = "nomeJogador"><?php echo "Olá, ". $_SESSION['nome'] ?></font>
+		<font id = "nomeJogador"><?php echo "Olá, ". $jogador->getNome() ?></font>
 	</div>						
 </div>
 				
 				
 <?php 
-	include_once("models/Nivel.php");
-	$nivel = new Nivel($_SESSION["id_nivel"]);
-	
-	$salarioAtual = $_SESSION['salarioAtual'];
-	$listaDeCenarios = $_SESSION['listaDeCenarios'];
-
-	/*
-	switch($nivel.getId()){
-		case 1:
-			setCookie("proximoNivel", "Analista de Dados Júnior");
-			break;
-		case 2:
-			setCookie("proximoNivel", "Analista de Dados Pleno");
-			break;
-		case 3:
-			setCookie("proximoNivel", "Analista de Dados Sênior");
-			break;						
-	}
-	*/
+$nivel = new Nivel($jogador->getNivel());
 ?>
 	
 <div class='row'>
 	<div class='col-sm-12'>
-		<div id = 'nivelJogador'>Você é ". $nivel.getNome() . ".</div>
+		<div id = 'nivelJogador'>Você é <?php echo $nivel->getNome(); ?>.</div>
 	</div>
 </div>
 		
 <div class='row'>
 	<div class='col-sm-4' align='left'>
 		<div id = 'divContador'>Erros:  <font id = 'numeroDeErrosMarcados' color = 'red'>0</font> 
-		<?php if ($nivel.getId() <= 2): ?>
+		<?php if ($nivel->getId() <= 2): ?> <!-- Mostra erros existentes -->
 			/ <font id = 'numeroDeErrosExistentes'></font>
 		<?php endif; ?>
 		</div>
 	</div>
 	<div class='col-sm-4' align='center'>
-		<div id = 'divPlacar'> R$<font id = 'placar'>$salarioAtual</font>,00</div>
+		<div id = 'divPlacar'> R$<font id = 'placar'><?php $jogador->getSalarioAtual(); ?></font>,00</div>
 	</div>
 	<div class='col-sm-4'  align='right'>
 		<font id = 'contadorRegressivo'><span id='clock1'></span><script id = 'script'></script></font>
@@ -291,6 +240,3 @@ setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
 </script>
 	<!--twitter-->
 	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-
-</body>
-</html>

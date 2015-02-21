@@ -7,16 +7,15 @@
 		if(!isset($_SESSION)){
 			session_start();
 		}
-		include("acessaBD.php");
+		include("database/acessaBD.php");
 
-		$pesquisaDescricao = mysql_query("SELECT * FROM cenario WHERE id_empresa = ". $_SESSION['id_empresa'] ." AND id_nivel = ".$_SESSION['id_nivel']." AND id_cenario = ".$_SESSION['id_cenario']);
+		$pesquisaDescricao = mysql_query("SELECT * FROM cenario WHERE id_empresa = ". $empresa->getId() ." AND id_nivel = ". $jogador->getNivel() ." AND id_cenario = ".$_SESSION['id_cenario']);
 
 		$resultado = mysql_fetch_array($pesquisaDescricao);
 
 		echo $resultado['descricao'];
 
 		mysql_close();
-
 	?>
 	</div>
 </div>
