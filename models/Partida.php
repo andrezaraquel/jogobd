@@ -25,7 +25,7 @@ class Partida extends Model{
 	function getCenarioAleatorio() {
 		$numeroMaximoDeCenarios = pesquisaCenarioAleatorio(); // Numero de cenarios cadastrados para cada empresa naquele nivel
 		$cenarioAleatorio = rand(1,$numeroMaximoDeCenarios); // Pesquisa um numero aleatoriamente para ser o cenario
-		if (!in_array( $cenarioAleatorio  , cenariosJaApresentados)){
+		if (!in_array( $cenarioAleatorio  , $this->cenariosJaApresentados)){
 			return $cenarioAleatorio;
 		} 
 		
