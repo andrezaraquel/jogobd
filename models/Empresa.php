@@ -4,7 +4,6 @@ class Empresa extends Model {
 	
 	private $id;
 	private $nome;
-	private $cenariosJaApresentados;
 	private $listaDeVitorias;
 	
 	function __construct($id){
@@ -14,7 +13,6 @@ class Empresa extends Model {
 		$empresa = mysql_fetch_array($pesquisaEmpresa);
 		$this->nome = $empresa['nome']; 
 		mysql_close();
-		$this->cenariosJaApresentados = array();
 		$this->listaDeVitorias = array();
 	}
 	
@@ -31,10 +29,5 @@ class Empresa extends Model {
 		mysql_close();
 		return mysql_fetch_array($query);
 	}
-	
-	function getCenariosJaApresentados() {
-		return $this->cenariosJaApresentados;
-	}
-	
 }
 ?>
