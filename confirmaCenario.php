@@ -9,14 +9,13 @@ require_once("includes/models.php");
 </head>
 <body>
 <?php
-$_SESSION['id_empresa'] = $_GET['id_empresa']; // Criacao da sessao com o id da empresa que o usuario selecionou
+$id_empresa = $_GET['id_empresa']; // Criacao da sessao com o id da empresa que o usuario selecionou
 
 // pesquisa o nivel do usuario atual
 $nivel = new Nivel($jogador->getNivel());
+$empresa = new Empresa($id_empresa);
 
-$pesquisaEmpresa = mysql_query("SELECT * FROM empresa WHERE id_empresa = ". $_SESSION['id_empresa']);
-$empresa = mysql_fetch_array($pesquisaEmpresa);
-$nomeEmpresa = $empresa['nome']; 
+$_SESSION['empresa'] = serialize($empresa);
 
 //$_SESSION['salarioInicial'] = $nivel['salarioInicial']; // seleciona o salario referente ao nivel e guarda numa variavel
 $_SESSION['salarioAtual'] = $_SESSION['salarioInicial'];
@@ -31,7 +30,7 @@ setcookie("podeJogar", "true");
 		<h4>Dados da Vaga:</h4>
 		<h5><?php echo $nivel->getNome(); ?></h5>
 		<h5>Sal&aacuterio Inicial: R$ <?php echo $nivel->getSalarioInicial(); ?></h5>
-		<h5>Empresa: <?php echo $nomeEmpresa?></h5>	
+		<h5>Empresa: <?php echo $empresa->getNome();?></h5>	
 	</div>
 		
 	<a href="javaScript:parent.location = 'jogo.php'" class='botaoAceita'></a>
