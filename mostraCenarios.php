@@ -31,52 +31,6 @@ function getTabela($nomeTabela) {
 }
 
 // funcao que desenha na tela cada tabela do cenario
-function desenhaTabela($nomeTabela){
-	include ("acessaBD.php"); // inclui o arquivo de conexao
-	require_once("models/Tabela.php");
-	
-	$tabela = new Tabela($nomeTabela);
-	$nome = $tabela->getNome();
-	
-	$output = "
-	<table class='tabelaDoJogo'>
-		<thead>
-			<tr>
-				<th colspan ='10' id='$nomeTabela'> Tabela $nome</th>
-			</tr>
-		
-		<tr><th></th>
-	";
-	foreach ($tabela->getNomeColunas() as $nomeColuna) {
-		$output .= "<th>$nomeColuna</th>";
-	}
-	$output .= "</thead><tbody>";
-	$corpo = $tabela->getCorpo();
-	$corpoErro = $tabela->getCorpoErro();
-	for ($i = 0; $i < count($tabela->getCorpo()); $i++) {
-		$linha = $corpo[$i];
-		$linhaErro = $corpoErro[$i];
-		$ultimaColuna = count($linhaErro) - 1;
-		$output .= "<tr>
-				<td class='tdCheck'>
-					<input type='checkbox' name='marcar[]' class='cursor' />
-				</td>" ;
-		for ($j = 0; $j < count($linha); $j++) {
-			if ($linhaErro[$ultimaColuna] == null) {
-				if ($linhaErro[$j] == null) {
-					$output .= "<td>" . $linha[$j] . "</td>" ;
-				} else {
-					$output .= "<td class='campoErro' data-error='" . $linhaErro[$j] . "'>" . $linha[$j] . "</td>" ;
-				}
-			} else {
-				$output .= "<td class='campoErro' data-error='".  $linhaErro[$ultimaColuna] . "'>" . $linha[$j] . "</td>" ;
-			}
-		}
-		$output .= "</tr>";
-	}
-	$output .= "</tbody></table>";
-	echo $output;
-}
 
 function pesquisaCenarioAleatorio(){
 	include ("acessaBD.php"); // inclui o arquivo de conexao

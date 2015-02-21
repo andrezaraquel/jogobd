@@ -4,19 +4,58 @@ marca os erros e avanca, verificando sua pontuacao
 authors: Andreza Raquel e Dandara Navarro
 */
 
-var errosExistentes = 0;
-var numErrosEncontrados = 0;
-var numNaoMarcados = 0;
-var numMarcacoesIncorretas = 0;
-var clicked = 0;
-var tempo;
-var horas = "0"+0; 
-var minutos = tempoMaximoPorNivel();
-var segundos = +1;
+
+/*Funcao que eh chamada sempre q a pagina carrega*/
+$(function () {	
+	$.ajax({
+		type: 'get',
+		url: 'database/getData.php',
+		success: function(data) {
+			var json = JSON.parse(data);
+			
+			var errosExistentes = 0;
+			var numErrosEncontrados = 0;
+			var numNaoMarcados = 0;
+			var numMarcacoesIncorretas = 0;
+			var clicked = 0;
+			var tempo;
+			var horas = "0"+0; 
+			var minutos = tempoMaximoPorNivel();
+			var segundos = +1;
+
+			//----------------------
+			// COOKIE
+			//----------------------
+			var numCenarios = json.numCenarions;
+			var salarioInicial = json.salarioInicial;
+			var nivelAtual = parseInt(json.nivelAtual);
+			var proximoNivel = data.proximoNivel;
+			//----------------------
+			
+			selecionaCelula(); // Funcao que colore a celula marcada com o clique do mouse
+			
+			document.getElementById('script').innerHTML = setTimeout('contadorRegressivo()',1000);	// Contador regressivo aparecer na tela
+			
+			mostraErrosExistentes(); // Conta os erros existentes no cenario
+			selecionaLinha(); // Marca a linha inteira como erro
+			cliqueDicas();
+			if(numCenarios < 5){
+				preencheBarraDeProgresso(false);
+			} else {
+				limpaProgresso();		
+			}
+				
+			var tempoMaximoPorNivel = parseInt(tempoMaximoPorNivel())*60;
+
+		}
+	});
+	
+});
+
 
 function tempoMaximoPorNivel(){	
 	var tempoNivel;	
-	switch ($.cookie("id_nivel")){		
+	switch (nivelAtual){		
 		case "1":
 			tempoNivel = "0" + 5;
 			break;
@@ -32,24 +71,6 @@ function tempoMaximoPorNivel(){
 	}
 	return tempoNivel;
 }
-
-/*Funcao que eh chamada sempre q a pagina carrega*/
-$(function () {	
-	selecionaCelula(); // Funcao que colore a celula marcada com o clique do mouse
-	
-	document.getElementById('script').innerHTML = setTimeout('contadorRegressivo()',1000);	// Contador regressivo aparecer na tela
-	
-	mostraErrosExistentes(); // Conta os erros existentes no cenario
-	selecionaLinha(); // Marca a linha inteira como erro
-	cliqueDicas();
-	if($.cookie("numCenarios") < 5){
-		preencheBarraDeProgresso(false);
-	} else {
-		limpaProgresso();		
-	}
-	
-});
-
 
 function cliqueDicas(){
 	$(".dica1").click(function(){
@@ -278,7 +299,7 @@ function mostraResultado(){
 function getScore(){
 	$.ajax({
 		type: 'get',
-		url: "getScore.php",
+		url: "database/getScore.php",
 		data: {score: fMeasure()},
 	}).done(function(data){
 		$.cookie("score", data);
@@ -291,9 +312,6 @@ function calculaSegundosRestantes() {
 }
 
 
-var salarioInicial = $.cookie("salarioInicial");
-var tempoMaximoPorNivel = parseInt(tempoMaximoPorNivel())*60;
-var nivelAtual = parseInt($.cookie("id_nivel"));
 //Calcula o aumento conforme o tempo restante e a medida fMeasure alcançada
 function calculaAumentoSalarial(){
 	var acrescimos = 0;		
@@ -351,8 +369,6 @@ function zeraCronometro(){
 	minutos = null;
 	segundos = 0;
 }
-
-
 
 /*Funcao para o botao de avancar. So redireciona se o botao estiver habilitado ou se o tempo acabou*/
 function avancar(tempoEsgotado, numCenarios){
@@ -414,7 +430,6 @@ function preencheBarraDeProgresso(atualiza){
 		}			
 	} 	
 }
-var proximoNivel = $.cookie("proximoNivel");
 
 function preencheModal(){
 	var jogadorVenceu = $.cookie('score') >= 210 || ($.cookie('score') >= 140 && $("#fase4").hasClass("progress-bar-success"));

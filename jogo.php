@@ -6,7 +6,7 @@ authors: Andreza Raquel e Dandara Navarro
 <?php
 require_once("includes/models.php");
 
-if (!isset($_SESSION["empresa"]) or (count($empresa->getCenariosJaApresentados()) and $_COOKIE['score'] < 210)) {
+if (!isset($_SESSION["empresa"])) {
 	header('Location: classificados.php');
 	exit;
 }

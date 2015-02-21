@@ -10,12 +10,6 @@ class Tabela extends Model {
 	function __construct($nomeTabela) {
 		parent::__construct();
 		$this->nome = substr($nomeTabela, 0, strlen($nomeTabela) -2);
-		$this->setNomeColunas($nomeTabela);
-		$this->setCorpo($nomeTabela);
-		mysql_close();
-	}
-		
-	function setNomeColunas($nomeTabela) {
 		$dadosColuna = mysql_query("SHOW COLUMNS FROM $nomeTabela"); 
 		$this->nomeColunas = array();
 		$i = 1;
@@ -25,9 +19,6 @@ class Tabela extends Model {
 			}
 		} 
 		unset($this->nomeColunas[count($this->nomeColunas)-1]);
-	}
-	
-	function setCorpo($nomeTabela) {
 		$dadosTabela = mysql_query("SELECT * FROM $nomeTabela");
 		$this->corpo = array();
 		$this->corpoErro = array();
@@ -46,8 +37,9 @@ class Tabela extends Model {
 			}
 			array_push($this->corpoErro[$lastIndex], $linha[$ultimaColuna]);
 		} 
+		mysql_close();
 	}
-	
+		
 	function getNome() {
 		return $this->nome;
 	}
@@ -64,5 +56,47 @@ class Tabela extends Model {
 		return $this->corpoErro;
 	}
 	
+	function desenha() {
+		$nome = $this->getNome();
+		$output = "
+		<table class='tabelaDoJogo'>
+			<thead>
+				<tr>
+					<th colspan ='10'> Tabela $nome</th>
+				</tr>
+			
+			<tr><th></th>
+		";
+		foreach ($this->getNomeColunas() as $nomeColuna) {
+			$output .= "<th>$nomeColuna</th>";
+		}
+		$output .= "</thead><tbody>";
+		$corpo = $this->getCorpo();
+		$corpoErro = $this->getCorpoErro();
+		for ($i = 0; $i < count($this->getCorpo()); $i++) {
+			$linha = $corpo[$i];
+			$linhaErro = $corpoErro[$i];
+			$ultimaColuna = count($linhaErro) - 1;
+			$output .= "<tr>
+					<td class='tdCheck'>
+						<input type='checkbox' name='marcar[]' class='cursor' />
+					</td>" ;
+			for ($j = 0; $j < count($linha); $j++) {
+				if ($linhaErro[$ultimaColuna] == null) {
+					if ($linhaErro[$j] == null) {
+						$output .= "<td>" . $linha[$j] . "</td>" ;
+					} else {
+						$output .= "<td>" . $linha[$j] . "</td>" ;
+					}
+				} else {
+					$output .= "<td>" . $linha[$j] . "</td>" ;
+				}
+			}
+			$output .= "</tr>";
+		}
+		$output .= "</tbody></table>";
+		echo $output;
+	}
+
 }
 ?>

@@ -13,4 +13,10 @@ $jogador = unserialize($_SESSION["jogador"]);
 if (isset($_SESSION["empresa"])) {
 	$empresa = unserialize($_SESSION["empresa"]);
 }
+if (isset($_SESSION["partida"])) {
+	$partida = unserialize($_SESSION["partida"]);
+}
+if (isset($_SESSION["cenario"])) {
+	$cenario = unserialize($_SESSION["cenario"]);
+}
 ?>

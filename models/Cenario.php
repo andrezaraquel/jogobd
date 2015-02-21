@@ -9,15 +9,16 @@ class Cenario extends Model {
 		
 	function __construct($id_empresa, $id_nivel, $id_cenario) {
 		parent::__construct();	
-		
 		$dadosCenario = mysql_query("SELECT * FROM cenario WHERE id_empresa = $id_empresa AND id_nivel = $id_nivel AND id_cenario = $id_cenario");
 		$dadosCenario = mysql_fetch_assoc($dadosCenario);
 		$this->descricao = $dadosCenario["descricao"];
-		$tihs->dicaUm = $dadosCenario["dica1"];
+		$this->dicaUm = $dadosCenario["dica1"];
 		$this->dicaDois = $dadosCenario["dica2"];
-		
 		$dadosTabelas = mysql_query("SELECT nome FROM tabelas WHERE id_empresa = $id_empresa AND id_nivel = $id_nivel AND id_cenario = $id_cenario");
-		$this->tabelas = mysql_fetch_array($dadosTabela);
+		$this->tabelas = mysql_fetch_assoc($dadosTabelas)["nome"];
+		if (!is_array($this->tabelas)) {
+			$this->tabelas = array($this->tabelas);
+		}
 		mysql_close();
 	}
 	
@@ -36,5 +37,6 @@ class Cenario extends Model {
 	function getTabelas() {
 		return $this->tabelas;
 	}	
+	
 }
 ?>

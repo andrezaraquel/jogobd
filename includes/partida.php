@@ -1,9 +1,32 @@
 <?php
 require_once("includes/models.php");
+
 $nivel = new Nivel($jogador->getNivel());
-$partida = new Partida($nivel->getId(), $empresa->getId());
-$cenario = $partida->getCenarioAleatorio();
+$partida = new Partida($jogador->getNivel(), $empresa->getId());
+if ($partida->getNumCenarios() < 5) {
+	unset($_SESSION['empresa']);
+	echo '<script>
+	alert("Não existem vagas suficientes para esta empresa.");
+	window.location.href="classificados.php";
+	</script>';
+	exit;
+} else {
+	$cenario = new Cenario($empresa->getId(), $jogador->getNivel(), $partida->getCenarioAleatorio());
+	$_SESSION["cenario"] = serialize($cenario);
+	$_SESSION["partida"] = serialize($partida);
+}
+
+require_once("modals/avancar.php"); 
+require_once("modals/dica1.php");
+require_once("modals/dica2.php");
 ?>
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script type="text/javascript" src="js/partidas.js"></script>	
+	<link href="css/partidas.css" rel="stylesheet" />
+</head>
+<body>
 
 <?php
 /*
@@ -51,15 +74,73 @@ setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
 </div>
 
 <div class="progress row" id='divProgress'>
-	   
 	   <div  id='fase0' class='progress-bar progress-bar-desativado' style='width:20%'><p>Partida 1</p></div>
 	   <div  id='fase1' class='progress-bar progress-bar-desativado' style='width:20%'><p>Partida 2</p></div>
 	   <div  id='fase2' class='progress-bar progress-bar-desativado' style='width:20%'><p>Partida 3</p></div>
 	   <div  id='fase3' class='progress-bar progress-bar-desativado' style='width:20%'><p>Partida 4</p></div>
 	   <div  id='fase4' class='progress-bar progress-bar-desativado' style='width:20%'><p>Partida 5</p></div>
-	   
 </div>
-					   
+				
+<div class='divDica'>
+	<a href='#ModalDica1' data-toggle='modal' rel='tooltip' title='1ª Dica' class='dica dica1'></a>
+	</br>
+	<a href='#ModalDica2' data-toggle='modal' rel='tooltip' title='2ª Dica' class='dica dica2'></a>
+</div>
+
+<?php
+$tabelas = $cenario->getTabelas();
+for ($i = 0; $i < count($tabelas); $i++) {
+	$tabela = new Tabela($tabelas[$i]);
+	$tabela->desenha();
+}
+?>
+	   
+<!--Botao que avanca quando esta enable.Precisa redirecionar para outra pagina e verificar os erros e acertos do usuario.--->
+<?php if ($jogador->getNivel() <= 2): ?>
+	<div id = 'divBotao'>
+		<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onclick =  'avancar(false,".count($listaDeCenarios).")' action = 'mostraCenarios.php'/>
+	</div>
+<?php else: ?>
+	<div id = 'divBotao'>
+		<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar enable' onclick =  'avancar(true,".count($listaDeCenarios).")' action = 'mostraCenarios.php'/>
+	</div>
+<?php endif; ?>
+
+<div>
+	<div id = "divResultado"></div>
+	<div id = "divInformes"></div>
+	<div id = "divScore"></div>
+</div>
+
+<script type="text/javascript"> 
+$(function() {
+	$("#ModalDica1 h5").html("<?php echo $cenario->getDicaUm(); ?>");
+	$("#ModalDica2 h5").html("<?php echo $cenario->getDicaDois(); ?>");
+});
+</script>
+
+<!--facebook-->
+<script type="text/javascript">
+  (function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://apis.google.com/js/platform.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<!--google plus-->
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript">
+window.___gcfg = {lang: 'en-GB'};
+
+  (function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://apis.google.com/js/platform.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<!--twitter-->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+	
 <?php 		
 	function inserePontuacao($email){
 		$registroEmail = mysql_query("SELECT * FROM ranking WHERE email = '". $email."'")or die(mysql_error()); // pesquisa no bd o erro que tem o id recebido
@@ -79,7 +160,8 @@ setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
 ?>
 	
 	
-	<?php				
+	<?php	
+/*	
 	require_once 'mostraCenarios.php'; // conexao com o arquivo que desenha os cenarios na tela
 		if (count($listaDeCenarios) < 5 ){
 			selecionaTabelas();		
@@ -124,102 +206,10 @@ setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
 				
 			}
 			
-		}
+		}*/
 		?>
 
-		<?php require_once("modals/avancar.php"); ?>
 		
-		<?php
-		include ("acessaBD.php");
-
-
-		if ($id_nivel == 1 || $id_nivel == 2){
-		$pesquisaDicas = mysql_query("SELECT * FROM cenario WHERE id_nivel = ".$_SESSION["id_nivel"]." AND id_cenario = ".$_SESSION["id_cenario"]. " AND id_empresa = ".$_SESSION["id_empresa"]);$array_dicas = mysql_fetch_array($pesquisaDicas);
-		$dica1 = $array_dicas["dica1"];
-		$dica2 = $array_dicas["dica2"];
-
-		echo "
-			<div class='divDica'>
-						
-
-				<a href='#ModalDica1' data-toggle='modal' rel='tooltip' title='1ª Dica' class='dica dica1'></a>
-				</br>
-				<a href='#ModalDica2' data-toggle='modal' rel='tooltip' title='2ª Dica' class='dica dica2'></a>
-
-
-		</div>
-		<div class='modal fade' id='ModalDica1' tabindex='1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'>
-			<div class='modal-dialog modal-sm' style=' margin-top: 14%; background-color: rgb(48, 80, 128); border-radius: 4%;'>
-						<header class='modal-header'>
-							<button class='close' data-dismiss='modal' aria-hidden='true'>X</button>
-							</br>
-						</header>
-						</br>
-						
-						<section class='modal-body'>
-							<img class='boneco-dica'>
-							<h5>".$dica1."</h5>
-						</section>
-						</br>
-			</div>			
-		</div>
-
-		<div class='modal fade' id='ModalDica2' tabindex='1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true'>
-			<div class='modal-dialog modal-sm' style=' margin-top: 14%; background-color: rgb(48, 80, 128); border-radius: 4%;'>
-						<header class='modal-header'>
-							<button class='close' data-dismiss='modal' aria-hidden='true'>X</button>
-						</br>
-						</header>
-						</br>
-						
-						<section class='modal-body'>
-							<img class='boneco-dica'>
-							<h5>".$dica2."</h5>
-						</section>
-						</br>
-			</div>			
-		</div>
-		";
-
-		} 
-		mysql_close();
-		?>
-
-		<!--Botao que avanca quando esta enable.Precisa redirecionar para outra pagina e verificar os erros e acertos do usuario.--->
-		<?php
-		if($_SESSION['id_nivel'] == 1 || $_SESSION['id_nivel'] == 2){
-			echo "<div id = 'divBotao'><input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onclick =  'avancar(false,".count($listaDeCenarios).")' action = 'mostraCenarios.php'/></div>";
-		} else {
-			echo "<div id = 'divBotao'><input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar enable' onclick =  'avancar(true,".count($listaDeCenarios).")' action = 'mostraCenarios.php'/></div>";
-		}
-
-
-		?>			
+</body>
+</html>
 		
-		<div>
-			<div id = "divResultado"></div>
-			<div id = "divInformes"></div>
-			<div id = "divScore"></div>
-		</div>
-		
-		<!--facebook-->
-	<script type="text/javascript">
-	  (function() {
-		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-		po.src = 'https://apis.google.com/js/platform.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	  })();
-	</script>
-	<!--google plus-->
-	<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
-	<script type="text/javascript">
-	window.___gcfg = {lang: 'en-GB'};
-
-	  (function() {
-		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-		po.src = 'https://apis.google.com/js/platform.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-	  })();
-</script>
-	<!--twitter-->
-	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
