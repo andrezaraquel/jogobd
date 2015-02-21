@@ -26,7 +26,7 @@ $(function () {
 			//----------------------
 			// COOKIE
 			//----------------------
-			var numCenarios = json.numCenarions;
+			var numCenarios = json.numCenarios;
 			var salarioInicial = json.salarioInicial;
 			var nivelAtual = parseInt(json.nivelAtual);
 			var proximoNivel = data.proximoNivel;
