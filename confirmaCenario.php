@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (!isset($_SESSION["email"]) || !isset($_SESSION["senha"])) {
+if (!isset($_SESSION["email"])) {
 	header("Location: index.php");
 	exit;
 } 
@@ -19,20 +19,19 @@ if (!isset($_SESSION["email"]) || !isset($_SESSION["senha"])) {
 </head>
 <body>
 <?php
+include_once ('database/acessaBD.php'); // inclusao do arquivo de acesso ao banco de dados
+include_once("models/Nivel.php");
+
 $_SESSION['id_empresa'] = $_GET['id_empresa']; // Criacao da sessao com o id da empresa que o usuario selecionou
 
-include ('acessaBD.php'); // inclusao do arquivo de acesso ao banco de dados
-
 // pesquisa o nivel do usuario atual
-$pesquisaNivel = mysql_query("SELECT * FROM nivel WHERE id_nivel = ". $_SESSION['id_nivel']);
-$nivel = mysql_fetch_array($pesquisaNivel); // transforma a pesquisa em um array
-$nomeNivel = $nivel['nome']; // seleciona o nome do nivel e guarda na variavel
+$nivel = new Nivel($_SESSION['id_nivel']);
 
 $pesquisaEmpresa = mysql_query("SELECT * FROM empresa WHERE id_empresa = ". $_SESSION['id_empresa']);
 $empresa = mysql_fetch_array($pesquisaEmpresa);
 $nomeEmpresa = $empresa['nome']; 
 
-$_SESSION['salarioInicial'] = $nivel['salarioInicial']; // seleciona o salario referente ao nivel e guarda numa variavel
+//$_SESSION['salarioInicial'] = $nivel['salarioInicial']; // seleciona o salario referente ao nivel e guarda numa variavel
 $_SESSION['salarioAtual'] = $_SESSION['salarioInicial'];
 $_SESSION['listaDeCenarios'] = array();
 $_SESSION['listaDeVitorias'] = array();
@@ -43,8 +42,8 @@ setcookie("podeJogar", "true");
 ?>
 	<div class="confirmaEmprego">	
 		<h4>Dados da Vaga:</h4>
-		<h5><?php echo $nomeNivel;?></h5>
-		<h5>Sal&aacuterio Inicial: R$ <?php echo $_SESSION['salarioInicial'];?></h5>
+		<h5><?php echo $nivel->getNome(); ?></h5>
+		<h5>Sal&aacuterio Inicial: R$ <?php echo $nivel->getSalarioInicial(); ?></h5>
 		<h5>Empresa: <?php echo $nomeEmpresa?></h5>	
 	</div>
 		

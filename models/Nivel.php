@@ -7,7 +7,7 @@ class Nivel {
 	private $salarioInicial;
 	
 	function __construct($id) {
-		require_once("database/acessaDB.php");
+		require_once($_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['SCRIPT_NAME']). "/database/acessaBD.php");
 		$dados = mysql_query("SELECT * FROM nivel WHERE id_nivel = $id");
 		$dados = mysql_fetch_assoc($dados);
 		$this->$id = $id;
