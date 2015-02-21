@@ -1,24 +1,15 @@
 <?php
-class Jogador{
+require_once("Model.php");
+class Jogador extends Model {
 	
 	private $nome;
 	private $login;
-	private $senha;
 	private $nivel;
 	private $sexo;
 	
-	function __construct($nome, $login, $senha, $sexo){
+	function __construct($nome, $login, $nivel, $sexo){
 		$this->nome = $nome;
 		$this->login = $login;
-		$this->senha = $senha;
-		$this->nivel = 1;
-		$this->sexo = $sexo;
-	}
-	
-	function __construct($nome, $login, $senha, $nivel, $sexo){
-		$this->nome = $nome;
-		$this->login = $login;
-		$this->senha = $senha;
 		$this->nivel = $nivel;
 		$this->sexo = $sexo;
 	}
@@ -56,10 +47,9 @@ class Jogador{
 				break;
 		
 		}
-		include ('acessaBD.php');
 		mysql_query("UPDATE cadastros SET id_nivel=" . $this->nivel . " WHERE email ='" . $this->email . "'");
 		mysql_close();	
-	
 	}
+	
 }
 ?>

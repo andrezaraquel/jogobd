@@ -84,8 +84,8 @@ function validaCampo(){
 			success: function() {
 				window.location.href = 'comoJogar.php';
 			},
-			error: function() {
-				$(".modal-body > p").html("E-mail já cadastrado.");
+			error: function(data) {
+				$(".modal-body > p").html(data.statusText);
 				$("#MessageModal").modal('show');
 			}
 		});

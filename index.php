@@ -25,7 +25,7 @@ include_once("includes/navbar.php");
 			<div class='botoesIndex row' align="center">
 				<div class="col-sm-6 col-sm-offset-3" style="margin-top:20%">
 					<?php
-						if (isset($_SESSION["email"]) || isset($_SESSION["senha"])) {
+						if (isset($_SESSION["jogador"])) {
 							echo "<a class='btn btn-lg btn-primary botaoInicial' href='classificados.php'>Jogar</a>";
 						} else{
 							echo "<a class='btn btn-lg btn-primary botaoInicial' href='#LoginModal' data-toggle='modal' >Jogar</a>";

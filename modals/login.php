@@ -7,7 +7,7 @@
 		<section class="modal-body">		
 			<form class="form-horizontal" id="loginForm" name="login">					
 				<div class="alert alert-danger" id="msgLoginError" style="display: none;">
-					<p>Usuário ou senha inválidos.</p>
+					<p></p>
 				</div>
 				<div class="control-group">
 					<div class="input-group" style="width: 100%">
@@ -60,6 +60,7 @@ $("#loginForm").on("submit", function() {
 		},
 		error: function(data) {
 			$("#msgLoginError").css("display", "");
+			$("#msgLoginError p").html(data.statusText);
 		}
 	});
 	return false;

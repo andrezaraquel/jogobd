@@ -1,5 +1,6 @@
 <?php
-class Tabela {
+require_once("Model.php");
+class Tabela extends Model {
 	
 	private $nome;
 	private $nomeColunas;
@@ -7,7 +8,7 @@ class Tabela {
 	private $corpoErro;
 
 	function __construct($nomeTabela) {
-		require_once($_SERVER['DOCUMENT_ROOT'] . dirname($_SERVER['SCRIPT_NAME']) . "/database/acessaBD.php");
+		parent::__construct();
 		$this->nome = substr($nomeTabela, 0, strlen($nomeTabela) -2);
 		$this->setNomeColunas($nomeTabela);
 		$this->setCorpo($nomeTabela);
