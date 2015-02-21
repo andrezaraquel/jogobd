@@ -23,7 +23,7 @@ class Partida extends Model{
 	}
 	
 	function getCenarioAleatorio() {
-		$numeroMaximoDeCenarios = pesquisaCenarioAleatorio(); // Numero de cenarios cadastrados para cada empresa naquele nivel
+		$numeroMaximoDeCenarios = numCenarios(); // Numero de cenarios cadastrados para cada empresa naquele nivel
 		$cenarioAleatorio = rand(1,$numeroMaximoDeCenarios); // Pesquisa um numero aleatoriamente para ser o cenario
 		if (!in_array( $cenarioAleatorio  , $this->cenariosJaApresentados)){
 			return $cenarioAleatorio;
@@ -32,7 +32,7 @@ class Partida extends Model{
 		return getCenarioAleatorio();
 	}
 	
-	private function pesquisaCenarioAleatorio(){		
+	private function numCenarios(){		
 		$cenarios = mysql_query("SELECT DISTINCT id_cenario FROM tabelas WHERE id_empresa = ". $_SESSION["id_empresa"]. " AND id_nivel = " . $_SESSION["id_nivel"]);
 		$numCenarios = mysql_num_rows ($cenarios);
 		return $numCenarios;
