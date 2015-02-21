@@ -30,7 +30,6 @@ class Cenario extends Model {
 	
 	function getTabelas() {
 		return $this->tabelas;
-	}
-	
+	}	
 }
 ?>
