@@ -1,12 +1,13 @@
 <?php
 
-require_once("includes/models.php");
+require_once("../includes/models.php");
 
 $numCenarios = $partida->getNumCenarios();
+$nivel = new Nivel($jogador->getNivel());
 $salarioInicial = $nivel->getSalarioInicial();
-$nivelAtual = $nivel.getId();
+$nivelAtual = $jogador->getNivel();
 
-switch($nivelAtual){
+switch($nivelAtual) {
 	case 1:
 		$proximoNivel = "Analista de Dados Júnior";
 		break;
@@ -16,12 +17,11 @@ switch($nivelAtual){
 	case 3:
 		$proximoNivel = "Analista de Dados Sênior";
 		break;
+	default:
+		$proximoNivel = "";
 }
 
-$json = '{"numCenarios":$numCenarios, "salarioInicial":$salarioInicial, "nivelAtual":$nivelAtual, "proximoNivel":$proximoNivel}';
+$json = '{"salarioAtual": ' . $jogador->getSalarioAtual() . ', "numCenarios":' . $numCenarios . ', "salarioInicial":' . $salarioInicial . ', "nivelAtual":' . $nivelAtual . ', "proximoNivel":"' . $proximoNivel . '", "score":' . $_COOKIE['score'] . '}';
 
 echo $json;
-
-mysql_close();
-
 ?>

@@ -19,12 +19,21 @@ if ($partida->getNumCenarios() < 5) {
 require_once("modals/avancar.php"); 
 require_once("modals/dica1.php");
 require_once("modals/dica2.php");
+
+$nomesTabelas = $cenario->getTabelas();
+$tabelas = array();
+$erros = 0;
+for ($i = 0; $i < count($nomesTabelas); $i++) {
+	$tabela = new Tabela($nomesTabelas[$i]);
+	$erros += $tabela->countErros();
+	array_push($tabelas, $tabela);
+}
 ?>
 <!DOCTYPE HTML>
 <html>
 <head>
 	<script type="text/javascript" src="js/partidas.js"></script>	
-	<link href="css/partidas.css" rel="stylesheet" />
+	<link href="css/partidas.css" rel="stylesheet" >
 </head>
 <body>
 
@@ -61,7 +70,7 @@ setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
 	<div class='col-sm-4' align='left'>
 		<div id = 'divContador'>Erros:  <font id = 'numeroDeErrosMarcados' color = 'red'>0</font> 
 		<?php if ($nivel->getId() <= 2): ?> <!-- Mostra erros existentes -->
-			/ <font id = 'numeroDeErrosExistentes'></font>
+			/ <font id = 'numeroDeErrosExistentes'><?php echo $erros; ?></font>
 		<?php endif; ?>
 		</div>
 	</div>
@@ -88,23 +97,13 @@ setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
 </div>
 
 <?php
-$tabelas = $cenario->getTabelas();
-for ($i = 0; $i < count($tabelas); $i++) {
-	$tabela = new Tabela($tabelas[$i]);
+foreach($tabelas as &$tabela) {
 	$tabela->desenha();
 }
 ?>
 	   
 <!--Botao que avanca quando esta enable.Precisa redirecionar para outra pagina e verificar os erros e acertos do usuario.--->
-<?php if ($jogador->getNivel() <= 2): ?>
-	<div id = 'divBotao'>
-		<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onclick =  'avancar(false,".count($listaDeCenarios).")' action = 'mostraCenarios.php'/>
-	</div>
-<?php else: ?>
-	<div id = 'divBotao'>
-		<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar enable' onclick =  'avancar(true,".count($listaDeCenarios).")' action = 'mostraCenarios.php'/>
-	</div>
-<?php endif; ?>
+<div id = 'divBotao'><input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onclick =  'avancar(<?php if ($jogador->getNivel() <= 2) { echo("true"); } else { echo("false"); } ?>,"<?php echo $partida->getNumCenarios(); ?>")' action = 'mostraCenarios.php'/></div>
 
 <div>
 	<div id = "divResultado"></div>
@@ -114,8 +113,18 @@ for ($i = 0; $i < count($tabelas); $i++) {
 
 <script type="text/javascript"> 
 $(function() {
-	$("#ModalDica1 h5").html("<?php echo $cenario->getDicaUm(); ?>");
-	$("#ModalDica2 h5").html("<?php echo $cenario->getDicaDois(); ?>");
+	$("#ModalDica1 h5").html('<?php echo $cenario->getDicaUm(); ?>');
+	$("#ModalDica2 h5").html('<?php echo $cenario->getDicaDois(); ?>');
+	
+	$(".dica1").click(function(){
+		$(this).removeClass("dica1");
+		$(this).addClass("dica1Sel");
+	});
+	
+	$(".dica2").click(function(){
+		$(this).removeClass("dica2");
+		$(this).addClass("dica2Sel");
+	});
 });
 </script>
 

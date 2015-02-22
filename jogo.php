@@ -1,4 +1,4 @@
-<!--
+<!-- 
 Classe que representa cada partida jogada pelo usuario.
 
 authors: Andreza Raquel e Dandara Navarro
