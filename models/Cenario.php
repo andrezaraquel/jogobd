@@ -15,7 +15,8 @@ class Cenario extends Model {
 		$this->dicaUm = $dadosCenario["dica1"];
 		$this->dicaDois = $dadosCenario["dica2"];
 		$dadosTabelas = mysql_query("SELECT nome FROM tabelas WHERE id_empresa = $id_empresa AND id_nivel = $id_nivel AND id_cenario = $id_cenario");
-		$this->tabelas = mysql_fetch_assoc($dadosTabelas)["nome"];
+		$dadosTabelas = mysql_fetch_assoc($dadosTabelas);
+		$this->tabelas = $dadosTabelas["nome"];
 		if (!is_array($this->tabelas)) {
 			$this->tabelas = array($this->tabelas);
 		}
