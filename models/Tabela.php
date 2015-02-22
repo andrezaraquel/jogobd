@@ -2,6 +2,7 @@
 require_once("Model.php");
 class Tabela extends Model {
 	
+	private $nomeTabela;
 	private $nome;
 	private $nomeColunas;
 	private $corpo;
@@ -9,6 +10,7 @@ class Tabela extends Model {
 
 	function __construct($nomeTabela) {
 		parent::__construct();
+		$this->nomeTabela = $nomeTabela;
 		$this->nome = substr($nomeTabela, 0, strlen($nomeTabela) -2);
 		$dadosColuna = mysql_query("SHOW COLUMNS FROM $nomeTabela"); 
 		$this->nomeColunas = array();
@@ -56,10 +58,42 @@ class Tabela extends Model {
 		return $this->corpoErro;
 	}
 	
+	function countErros() {
+		$erros = 0;
+		$corpoErro = $this->getCorpoErro();
+		for ($i = 0; $i < count($corpoErro); $i++) {
+			$linha = $corpoErro[$i];
+			for ($j = 0; $j < count($linha); $j++) {
+				if ($linha[$j]) {
+					$erros++;
+				}
+			}
+		}
+		return $erros;
+	}
+	
+	function getErros() {
+		$erros = array();
+		$corpoErro = $this->getCorpoErro();
+		for ($i = 0; $i < count($corpoErro); $i++) {
+			$linha = $corpoErro[$i];
+			for ($j = 0; $j < count($linha); $j++) {
+				if ($linha[$j]) {
+					if ($j == count($linha) - 1) {
+						array_push($erros, array($i, -1, $linha[$j]));
+					} else {
+						array_push($erros, array($i, $j, $linha[$j]));
+					}
+				}
+			}
+		}
+		return $erros;
+	}
+	
 	function desenha() {
 		$nome = $this->getNome();
 		$output = "
-		<table class='tabelaDoJogo'>
+		<table class='tabelaDoJogo' data-nome='" . $this->nomeTabela . "'>
 			<thead>
 				<tr>
 					<th colspan ='10'> Tabela $nome</th>
@@ -78,19 +112,11 @@ class Tabela extends Model {
 			$linhaErro = $corpoErro[$i];
 			$ultimaColuna = count($linhaErro) - 1;
 			$output .= "<tr>
-					<td class='tdCheck'>
+					<td class='tdCheck' data-row='" . $i . "' data-col='-1'>
 						<input type='checkbox' name='marcar[]' class='cursor' />
 					</td>" ;
 			for ($j = 0; $j < count($linha); $j++) {
-				if ($linhaErro[$ultimaColuna] == null) {
-					if ($linhaErro[$j] == null) {
-						$output .= "<td>" . $linha[$j] . "</td>" ;
-					} else {
-						$output .= "<td>" . $linha[$j] . "</td>" ;
-					}
-				} else {
-					$output .= "<td>" . $linha[$j] . "</td>" ;
-				}
+				$output .= "<td data-row='" . $i . "' data-col='" . $j . "'>" . $linha[$j] . "</td>" ;
 			}
 			$output .= "</tr>";
 		}

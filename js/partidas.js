@@ -3,7 +3,21 @@ marca os erros e avanca, verificando sua pontuacao
 
 authors: Andreza Raquel e Dandara Navarro
 */
+var numCenarios;
+var salarioInicial;
+var salarioAtual;
+var nivelAtual;
+var proximoNivel;
 
+var errosExistentes;
+var numErrosEncontrados;
+var numNaoMarcados;
+var numMarcacoesIncorretas;
+var clicked;
+var tempo;
+
+var segundos;
+var tempoMaximo;
 
 /*Funcao que eh chamada sempre q a pagina carrega*/
 $(function () {	
@@ -11,103 +25,78 @@ $(function () {
 		type: 'get',
 		url: 'database/getData.php',
 		success: function(data) {
+				
+			console.log(data);
 			var json = JSON.parse(data);
-			
-			var errosExistentes = 0;
-			var numErrosEncontrados = 0;
-			var numNaoMarcados = 0;
-			var numMarcacoesIncorretas = 0;
-			var clicked = 0;
-			var tempo;
-			var horas = "0"+0; 
-			var minutos = tempoMaximoPorNivel();
-			var segundos = +1;
 
 			//----------------------
 			// COOKIE
 			//----------------------
-			var numCenarios = json.numCenarios;
-			var salarioInicial = json.salarioInicial;
-			var nivelAtual = parseInt(json.nivelAtual);
-			var proximoNivel = data.proximoNivel;
+			numCenarios = parseInt(json.numCenarios);
+			salarioInicial = json.salarioInicial;
+			salarioAtual = json.salarioAtual;
+			nivelAtual = parseInt(json.nivelAtual);
+			proximoNivel = data.proximoNivel;
 			//----------------------
-			
-			selecionaCelula(); // Funcao que colore a celula marcada com o clique do mouse
-			
-			document.getElementById('script').innerHTML = setTimeout('contadorRegressivo()',1000);	// Contador regressivo aparecer na tela
-			
-			mostraErrosExistentes(); // Conta os erros existentes no cenario
-			selecionaLinha(); // Marca a linha inteira como erro
-			cliqueDicas();
-			if(numCenarios < 5){
+
+			errosExistentes = parseInt($("#numeroDeErrosExistentes").html());
+			numErrosEncontrados = 0;
+			numNaoMarcados = 0;
+			numMarcacoesIncorretas = 0;
+			clicked = 0;
+			tempo;
+
+			if (numCenarios < 5) {
 				preencheBarraDeProgresso(false);
 			} else {
 				limpaProgresso();		
 			}
-				
-			var tempoMaximoPorNivel = parseInt(tempoMaximoPorNivel())*60;
 
+			segundos = tempoMaximoPorNivel();
+			tempoMaximo = segundos;
+
+			contadorRegressivo();
+
+			selecionaCelula(); // Funcao que colore a celula marcada com o clique do mouse
+			selecionaLinha(); // Marca a linha inteira como erro
+						
 		}
 	});
 	
 });
 
-
-function tempoMaximoPorNivel(){	
-	var tempoNivel;	
-	switch (nivelAtual){		
-		case "1":
-			tempoNivel = "0" + 5;
-			break;
-		case "2":
-			tempoNivel = "0" + 4;
-			break;
-		case "3":
-			tempoNivel = "0" + 3;
-			break;
-		case "4":
-			tempoNivel = "0" + 2;
-			break;
-	}
-	return tempoNivel;
-}
-
-function cliqueDicas(){
-	$(".dica1").click(function(){
-		$(this).removeClass("dica1");
-		$(this).addClass("dica1Sel");
-	});
-	
-	$(".dica2").click(function(){
-		$(this).removeClass("dica2");
-		$(this).addClass("dica2Sel");
-	});
-}
+				
+//-----------------------------------------------
+// TABELA
+//-----------------------------------------------
 
 /*Funcao que marca a celula quando o mouse eh clicado*/
 function selecionaCelula(){		
-	$("table > tbody > tr > td").click(function () {// Evento acionado quando uma td é clicada
-		if(minutos != null && $(this).parent().parent().parent().attr("class") != "tabelaDeErros"){
-		
+	$(".tabelaDoJogo > tbody > tr > td").click(function () {// Evento acionado quando uma td é clicada
+		if (segundos > 0) {
 			var tr = $(this).parent();
-			
-			if (tr.attr("class") != "selected" && $(this).hasClass("destaque")){	// se a celula jah foi clicada, desmarque
-				
+			if (tr.attr("class") != "selected" && $(this).hasClass("destaque")) {	// se a celula jah foi clicada, desmarque
 				clicked--;	// numero de marcacoes diminui
 				$(this).removeClass("destaque"); // remove a cor rosa
-
 			} else if (tr.attr("class") != "selected" && (clicked < errosExistentes || nivelAtual > 2) && !$(this).hasClass("tdCheck")){	// Se não, verifica se a quantidade de marcacao eh menor que a quantidade de erros existentes
-				
 				clicked++;	// incrementa a quantidade de marcacao
 				$(this).addClass("destaque"); // Adiciona a cor rosa
 			}
 
 			habilitaDesabilitaBotaoAvancar(); // Funcao que verifica se eh preciso habilitar ou desabilitar o botao de avancar
-
 			atualizaQuantidadeMarcacoes(); // Funcao que atualiza na tela a quantidade de marcacoes feitas ateh o momento
 		}
 	});
 }
+
+/*Funcao que atualiza na tela a quantidade de marcacoes a cada clique*/
+function atualizaQuantidadeMarcacoes(){
+	var contador = document.getElementById("numeroDeErrosMarcados");// procura o local onde a quantidade de marcacao deve aparecer
+	if (contador != null) {
+		contador.innerHTML = "<font color= #d9534f>" + clicked + "</font>" // Mostra a quantidade atual de marcacoes na pagina.
+	}
+}
+
 
 function selecionaLinha(){   
 	$('table > tbody > tr > td > :checkbox').click(function(){	
@@ -133,14 +122,6 @@ function selecionaLinha(){
      });
 }
 
-/*Funcao que atualiza na tela a quantidade de marcacoes a cada clique*/
-function atualizaQuantidadeMarcacoes(){
-	var contador = document.getElementById("numeroDeErrosMarcados");// procura o local onde a quantidade de marcacao deve aparecer
-	if(contador != null){
-		contador.innerHTML = "<font color= #d9534f>" + clicked + "</font>" // Mostra a quantidade atual de marcacoes na pagina.
-	}
-}
-
 /*Funcao que habilita ou desabilita o botao de avancar */
 function habilitaDesabilitaBotaoAvancar(){
 	if(clicked == errosExistentes || nivelAtual > 2){ // se a quantidade de marcacoes for igual aa quantidade de erros
@@ -156,40 +137,50 @@ function habilitaDesabilitaBotaoAvancar(){
 		$("input").addClass("disable");
 	}
 }
+//-----------------------------------------------
+// FIM DA TABELA
+//-----------------------------------------------
 
-/*Funcao para o contador regressivo*/
-function contadorRegressivo(){
-	segundos--;
-
-	if(segundos==-1){ // reinicia a contagem regressiva do segundos
-		segundos=59;
-		if(minutos ==1){ // tratamento para os minutos ficarem com duas casas sempre
-			minutos="0" + 0;
-
-		} else if (minutos == "00") { // verifica se o tempo esgotou!!
-			alert("Tempo Esgotado! :(");
-			segundos = -1;
-			avancar(true, null); // parametro de controle. Ele sendo true pode avancar mesmo q o botao esteja desabilitado
-
-		}else if (minutos != null){ // se nada disse acontecer continua a contagem regressiva.
-			minutos = "0" + --minutos;
-		}
+//-----------------------------------------------
+// CRONOMETRO
+//-----------------------------------------------
+function tempoMaximoPorNivel() {	
+	switch (nivelAtual){		
+		case 1:
+			return 5 * 60;
+			break;
+		case 2:
+			return 4 * 60;
+			break;
+		case 3:
+			return 3 * 60;
+			break;
+		case 4:
+			return 2 * 60;
+			break;
 	}
-
-	if(segundos<=9)segundos="0"+segundos; // decrementa sempre os segundos	
-	
-	
-	atualizaTempoNaPagina();
-	if(minutos == 0 && segundos <= 59){
-		piscando();
-	}	
-	setTimeout('contadorRegressivo()',1000); // chama a funcao a cada segundo
-	
-	
+	return 60;
 }
 
-function piscando(){  
-               
+/*Funcao para o contador regressivo*/
+function contadorRegressivo() {
+	if (segundos == null) return;
+	segundos--;
+	if (segundos >= 0) {
+		atualizaTempoNaPagina(segundos);
+		if (segundos <= 59) {
+			piscando();
+		}
+		setTimeout(function() {
+			contadorRegressivo();
+		}, 1000);
+	} else {
+		alert("Tempo Esgotado! :(");
+		avancar(true, null); // parametro de controle. Ele sendo true pode avancar mesmo q o botao esteja desabilitado
+	}
+}
+
+function piscando() {  
 	divPisca = document.getElementById("contadorRegressivo");    
 	if(divPisca.getAttribute("style")=="VISIBILITY: hidden"){                              
 		divPisca.setAttribute("style", "VISIBILITY: visible");            
@@ -198,17 +189,33 @@ function piscando(){
 	}          
 }
 
-/*Funcao que atualiza o tempo na pagina a cada segundo*/
-function atualizaTempoNaPagina(){
-	tempo = horas+"<font color=#000000>:</font>"+minutos+"<font color=#000000>:</font>"+segundos; // procura o local onde o tempo deve aparecer
-	document.getElementById('clock1').innerHTML=tempo; //mostra o tempo atual na pagina
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
 }
 
+/*Funcao que atualiza o tempo na pagina a cada segundo*/
+function atualizaTempoNaPagina(segundos) {
+	//alert(segundos);
+	var horas = pad(Math.floor((segundos / 3600) % 24), 2);
+	var minutos = pad(Math.floor((segundos / 60) % 60), 2);
+	var segundos = pad(segundos % 60, 2);
+	tempo = horas+"<font color=#000000>:</font>"+ minutos + "<font color=#000000>:</font>"+ segundos; // procura o local onde o tempo deve aparecer
+	document.getElementById('clock1').innerHTML=tempo; //mostra o tempo atual na pagina
+}
+//-----------------------------------------------
+// FIM DO CRONOMETRO
+//-----------------------------------------------
+	
+//-----------------------------------------------
+// VALIDACAO
+//-----------------------------------------------
 /*Funcao ajax que retorna o erro de cada celula*/
 function getErro(celula, id) {
 	$.ajax({
 		type: 'get',
-		url: "pesquisaErro.php",
+		url: "database/pesquisaErro.php",
 		data: {identificador: id},
 	}).done(function(data){
 		celula.attr('title', data);
@@ -216,116 +223,130 @@ function getErro(celula, id) {
 
 }
 
-
-function coloreLinhas(){
-	$("table > tbody > tr > td").each(function(i){
-		var tr = $(this).parent();
-		
-		if ($(this).attr("class") == "tdCheck campoErro" && $(tr).attr("class") == "selected"){
-						
-			numErrosEncontrados++; // incrementa a quantidade de erros encontrados 
-			$(tr).removeClass("selected"); // remove a cor rosa
-			$(tr).find("td").each(function(e){				
-				$(this).addClass("marcouCerto");
-				mostraTooltip($(this));				
-			});
-						
-			
-		}else if ($(this).attr("class") == "tdCheck campoErro" && $(tr).attr("class") != "selected"){
-			numNaoMarcados++; // incrementa o numero de erros nao marcados
-			$(tr).removeClass("selected"); // remove a cor rosa			
-			$(this).addClass("erroNaoMarcado");	
-			mostraTooltip($(this));	
-		
-		}else if  ($(this).attr("class") != "tdCheck campoErro" && $(tr).attr("class") == "selected"){
-			numMarcacoesIncorretas++; // incrementa a quantidade de marcaçÃµes incorretas
-			$(tr).removeClass("selected"); // remove a cor rosa			
-			$(this).addClass("marcouErrado");// adiciona a cor vermelha
-			mostraTooltip($(this));
-		} else if(tr.data('error') != undefined){
-			mostraTooltip($(this));
-		}
-		
-		$(this).find(":checkbox").attr("disabled", true); // desabilita marcação nos checkbox's
-	});
+function mostraTooltip(celula) {
+	celula.attr('trigger', "hover");
+	celula.attr('rel', "tooltip");
 	
+	if (celula.data('error') == undefined) {			
+		celula.attr('title',"Não é erro");
+	}else{		
+		getErro(celula, celula.data('error'));
+	}
 
 }
 
-
-
-// funcao que colore as celulas segundo a marcacao correta e errada ou falta de marcacao do erro pelo jogador
-function coloreCelulas(){
-	$(".tabelaDoJogo").find('td').each(function(i){ // percorre todas as td's da tabela
-
-		if ($(this).attr("class") == "campoErro destaque"){ // se a celula estiver marcada corretamente marca com verde
-			numErrosEncontrados++; // incrementa a quantidade de erros encontrados 
-			$(this).removeClass("destaque"); // remove a cor rosa
-			$(this).addClass("marcouCerto") // adiciona a cor verde
-
-			mostraTooltip($(this));
-
-		} else if ($(this).attr("class") == "campoErro") { // verifica se a celula eh errada e não foi marcada. Se isso acontece, marca com amarelo
-
-			numNaoMarcados++; // incrementa o numero de erros nao marcados
-			$(this).addClass("erroNaoMarcado"); // adiciona a cor amarela
-
-			mostraTooltip($(this));
-
-		} else if ($(this).attr("class") == "destaque") { // se nao, verifica se uma celula que nao tem erro foi marcada. Se sim, marca com vermelho
-
-			numMarcacoesIncorretas++; // incrementa a quantidade de marcacoes incorretas
-			$(this).removeClass("destaque"); // remove a cor rosa
-			$(this).addClass("marcouErrado");// adiciona a cor vermelha
-
-			mostraTooltip($(this));
-			
-		} // fim else if
-	}); // fim da procura por td's
-} // fim funcao coloreCelulas
+function mostraErros(callback) {
+	$.ajax({
+		type: 'get',
+		url: 'database/getErros.php',
+		success: function(data) {
+			var json = JSON.parse(data);
+			$(".tabelaDoJogo").each(function(k) {
+				var tabela = json[k];
+				$(this).find("tbody > tr").each(function(i) {
+					$(this).find("td").each(function(j) {
+						var tr = $(this).parent();
+						var row = $(this).data("row");
+						var col = $(this).data("col");
+						var encontrado = false;
+						for (var m = 0; m < tabela.length; m++) {
+							if (tabela[m].i == row && tabela[m].j == col) {
+								encontrado = true;
+								if (col == -1) {
+									$(tr).find("td").each(function(n) {
+										$(this).data("error", tabela[m].msg);
+									});
+								} else {
+									$(this).data("error", tabela[m].msg);
+								}
+								break;
+							}
+						}
+						if (encontrado) {
+							if (col == -1) {
+								if ($(tr).attr("class") == "selected") {
+									numErrosEncontrados++; // incrementa a quantidade de erros encontrados 
+									$(tr).removeClass("selected"); // remove a cor rosa
+									$(tr).find("td").each(function(e){				
+										$(this).addClass("marcouCerto");
+										mostraTooltip($(this));				
+									});
+								} else {
+									numNaoMarcados++; // incrementa o numero de erros nao marcados
+									$(tr).removeClass("selected"); // remove a cor rosa			
+									$(this).addClass("erroNaoMarcado");	
+									mostraTooltip($(this));	
+								}
+							} else {
+								if ($(this).attr("class") == "destaque") {
+									numErrosEncontrados++; // incrementa a quantidade de erros encontrados 
+									$(this).removeClass("destaque"); // remove a cor rosa
+									$(this).addClass("marcouCerto") // adiciona a cor verde
+									mostraTooltip($(this));
+								} else {
+									numNaoMarcados++; // incrementa o numero de erros nao marcados
+									$(this).addClass("erroNaoMarcado"); // adiciona a cor amarela
+									mostraTooltip($(this));
+								}
+							}
+						} else if (col == -1 && $(tr).attr("class") == "selected") {
+							numMarcacoesIncorretas++; // incrementa a quantidade de marcaçÃµes incorretas
+							$(tr).removeClass("selected"); // remove a cor rosa			
+							$(this).addClass("marcouErrado");// adiciona a cor vermelha
+							mostraTooltip($(this));
+						} else if ($(this).attr("class") == "destaque") {
+							numMarcacoesIncorretas++; // incrementa a quantidade de marcacoes incorretas
+							$(this).removeClass("destaque"); // remove a cor rosa
+							$(this).addClass("marcouErrado");// adiciona a cor vermelha
+							mostraTooltip($(this));
+						}
+						if (col == -1) {
+							$(this).find(":checkbox").attr("disabled", true); // desabilita marcação nos checkbox's
+						}
+					});
+				});
+			});
+			callback();
+		}
+	});
+}
 
 // funcao que imprime na tela o resultado das marcacoes realizadas pelo usuario
-function mostraResultado(){
-
+function mostraResultado() {
 	var resultado = document.getElementById("divResultado"); // procura o elemto com o id informado. No caso, a div onde sera colocada o resultado da partida
-
 	// atibui ao resultado da pesquisa os valores das marcacoes corretas e erradas
 	resultado.innerHTML = "<font color= #5cb85c>Erro(s) Encontrado(s): " + numErrosEncontrados + "</font></br>" +
 	"<font color= #f0ad4e>Erro(s) N&atilde;o Marcado(s): " + numNaoMarcados + "</font></br>" +
 	"<font color= #d9534f>Marca&ccedil;&atilde;o(&otilde;es) Errada(s): " + numMarcacoesIncorretas+ "</font>"
-
 }
-
-function getScore(){
-	$.ajax({
-		type: 'get',
-		url: "database/getScore.php",
-		data: {score: fMeasure()},
-	}).done(function(data){
-		$.cookie("score", data);
-	});
-}
-
-//funcao que calcula o tempo que resta, em segundos, apos o jogador concluir a partida
-function calculaSegundosRestantes() {
-	return parseInt(minutos) * 60 + parseInt(segundos); // tranforma tudo em segundos e retorna
-}
-
+//-----------------------------------------------
+// FIM DA VALIDACAO
+//-----------------------------------------------
 
 //Calcula o aumento conforme o tempo restante e a medida fMeasure alcançada
-function calculaAumentoSalarial(){
+function calculaAumentoSalarial(callback) {
 	var acrescimos = 0;		
 	if (fMeasure() >= 70){	
 		
-		var tempoGasto = tempoMaximoPorNivel - calculaSegundosRestantes();		
-		var calculoDoTempo = tempoGasto / tempoMaximoPorNivel;
+		var tempoGasto = tempoMaximo - segundos;
+		var calculoDoTempo = tempoGasto / tempoMaximo;
 		var calculoDoNivel = nivelAtual/8.0;
 		acrescimos = Math.abs(2*(fMeasure()/100) - calculoDoTempo)*calculoDoNivel;
 	}
 	// Aumento com base no salario, fMeasure e acrescimo em relacao ao tempo restante (soh a parte inteira)
-	var salario = parseInt(document.getElementById('placar').innerHTML)+ parseInt(salarioInicial* acrescimos);
-
-	document.getElementById('placar').innerHTML = salario; // atualiza o salario na tela
+	var salario = salarioAtual + parseInt(salarioInicial* acrescimos);
+	$.ajax({
+		type: 'POST',
+		url: 'database/setSalarioAtual.php',
+		data: {
+			salario: salario
+		},
+		success: function() {
+			salarioAtual = salario;
+			$("#placar").html(salario);
+			callback();
+		}
+	});
 }
 
 /*Funcao que calcula a medida de acertos com base no total de marcacoes feitas pelo usuario*/
@@ -365,37 +386,31 @@ function avancaCenario(){
 	location.href="avancaCenario.php?salarioAtual="+salarioAtual; // redireciona para mudar o cenario
 }
 
-function zeraCronometro(){
-	minutos = null;
-	segundos = 0;
-}
-
 /*Funcao para o botao de avancar. So redireciona se o botao estiver habilitado ou se o tempo acabou*/
 function avancar(tempoEsgotado, numCenarios){
 	if (($("#buttonAvancar")).hasClass("enable") || tempoEsgotado) { // verifica se o botao esta habilitado.
-		if(numCenarios == 4 && nivelAtual == 4 ){
+		if (numCenarios == 4 && nivelAtual == 4){
 			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar enable' href = '#ModalAvancar'>Encerrar</a>";
-		}
-		else if(numCenarios == 4){		
+		} else if(numCenarios == 4) {		
 			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar enable' href = '#ModalAvancar'>Avançar</a>";
 		} else {
 			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar enable' onClick = 'avancaCenario()'/>";
 		}
-		document.getElementById("contadorRegressivo").innerHTML = tempo; // mostra o tempo que ele passou para concluir uma etapa
-
-		coloreCelulas(); // colore as celulas marcadas ou nao
-		coloreLinhas();
-		mostraResultado(); // mostra o resultado das marcacoes na tela
-		mostraScore();
-		calculaAumentoSalarial();
-		zeraCronometro();
-		preencheBarraDeProgresso(true);
-		if(numCenarios == 4){
-			preencheModal();
-		} 
 		
-		getScore();	
+		segundos = null; //pausa o tempo
 		
+		 // colore as celulas marcadas ou nao
+		mostraErros(function() {
+			mostraResultado(); // mostra o resultado das marcacoes na tela
+			mostraScore();
+			calculaAumentoSalarial(function() {
+				preencheBarraDeProgresso(true);
+				if (numCenarios == 4){
+					preencheModal();
+				} 
+				//getScore();	
+			});
+		});
 	}	
 }
 function getListaDeVitorias(){
@@ -419,7 +434,7 @@ function getStringDeVitorias(){
 }
 
 
-function preencheBarraDeProgresso(atualiza){	
+function preencheBarraDeProgresso(atualiza) {	
 	var listaDeVitorias = atualiza?getListaDeVitorias(): getStringDeVitorias().split("|");	
 	//alert("passou daqui: " + listaDeVitorias);
 	for(i = 0; i < listaDeVitorias.length; i++){				
@@ -445,32 +460,8 @@ function preencheModal(){
 
 }
 
-
-// funcao que percorre as tabelas para verificar a quantidade de erros no cenario atual
-function mostraErrosExistentes() {
-	$(".campoErro").each(function(i) { 
-		errosExistentes++;
-	});
-
-	var contador = document.getElementById("numeroDeErrosExistentes"); //Procura o local onde colocar a quantidade de erros
-	if(contador != null){
-		contador.innerHTML = "<font>"+errosExistentes+"</font>"; // adiciona a quantidade de erros existentes ao carregar a pagina
-	}
-}
-
-function mostraTooltip(celula){
-		celula.attr('trigger', "hover");
-		celula.attr('rel', "tooltip");
-		
-		if(celula.data('error') == undefined){			
-			celula.attr('title',"Não é erro");
-		}else{			
-			getErro(celula, celula.data('error'));
-		}
-
-}
-
 function limpaProgresso(){
 	document.getElementById('divProgress').innerHTML = "<div  id='fase0'></div><div  id='fase1'></div><div  id='fase2'></div><div  id='fase3'></div><div  id='fase4'></div>";
-	$.cookie("score", 0);	
 }
+
+
