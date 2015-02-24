@@ -37,6 +37,7 @@ $(function () {
 			salarioAtual = json.salarioAtual;
 			nivelAtual = parseInt(json.nivelAtual);
 			proximoNivel = data.proximoNivel;
+			score = data.score;
 			//----------------------
 
 			errosExistentes = parseInt($("#numeroDeErrosExistentes").html());
@@ -447,7 +448,7 @@ function preencheBarraDeProgresso(atualiza) {
 }
 
 function preencheModal(){
-	var jogadorVenceu = $.cookie('score') >= 210 || ($.cookie('score') >= 140 && $("#fase4").hasClass("progress-bar-success"));
+	var jogadorVenceu = score >= 210 || (score >= 140 && $("#fase4").hasClass("progress-bar-success"));
 	if(jogadorVenceu && nivelAtual == 4){
 		$.cookie("podeJogar", "false");
 		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco-vencedor.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você conseguiu terminar todas as etapas.</h5><a class='btn btn-success' style='margin-left: 25%;' href='ranking.php'>Verificar o Ranking</a></div>";													
