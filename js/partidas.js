@@ -19,7 +19,7 @@ var tempo;
 var segundos;
 var tempoMaximo;
 
-/*Funcao que eh chamada sempre q a pagina carrega*/
+/*Funcao que eh chamada sempre que a pagina carrega*/
 $(function () {	
 	$.ajax({
 		type: 'get',
@@ -35,7 +35,7 @@ $(function () {
 			salarioAtual = json.salarioAtual;
 			nivelAtual = parseInt(json.nivelAtual);
 			proximoNivel = data.proximoNivel;
-			score = data.score;
+			score = parseFloat(data.score);
 			//----------------------
 
 			errosExistentes = parseInt($("#numeroDeErrosExistentes").html());
@@ -58,7 +58,6 @@ $(function () {
 
 			selecionaCelula(); // Funcao que colore a celula marcada com o clique do mouse
 			selecionaLinha(); // Marca a linha inteira como erro
-						
 		}
 	});
 	
@@ -167,7 +166,7 @@ function contadorRegressivo() {
 	segundos--;
 	if (segundos >= 0) {
 		atualizaTempoNaPagina(segundos);
-		if (segundos <= 59) {
+		if (segundos <= 30) {
 			piscando();
 		}
 		setTimeout(function() {
@@ -336,9 +335,10 @@ function calculaAumentoSalarial(callback) {
 	var salario = salarioAtual + parseInt(salarioInicial* acrescimos);
 	$.ajax({
 		type: 'POST',
-		url: 'database/setSalarioAtual.php',
+		url: 'database/setPontuacao.php',
 		data: {
-			"salario": salario
+			"salario": salario,
+			"score": fMeasure()
 		},
 		success: function() {
 			salarioAtual = salario;
@@ -351,8 +351,8 @@ function calculaAumentoSalarial(callback) {
 /*Funcao que calcula a medida de acertos com base no total de marcacoes feitas pelo usuario*/
 function fMeasure() {
 
-	//RECALL é a razão entre o nÃºmero de registros relevantes (numero de erros marcados corretamente)
-	//recuperado para o nÃºmero total de registros relevantes na base de dados (numero de erros existentes, de fato).
+	//RECALL é a razão entre o numero de registros relevantes (numero de erros marcados corretamente)
+	//recuperado para o numero total de registros relevantes na base de dados (numero de erros existentes, de fato).
 	var recall = 0;
 	if (errosExistentes != 0) {
 		recall = numErrosEncontrados / errosExistentes; 
@@ -401,24 +401,35 @@ function avancar(tempoEsgotado, numCenarios){
 		mostraErros(function() {
 			mostraResultado(); // mostra o resultado das marcacoes na tela
 			mostraScore();
-			calculaAumentoSalarial(function() {
-				preencheBarraDeProgresso(true);
+			calculaAumentoSalarial(function() {				
 				if (numCenarios == 4){
 					preencheModal();
 				} 
-			});
+			});			
 		});
+		preencheBarraDeProgresso(true);
 	}	
 }
+
+//-----------------------------------------------
+// LISTA DE VITORIAS
+//-----------------------------------------------
+
+function setListaDeVitorias() {
+	$.ajax({
+		type: "POST",
+		url: "database/getSetListaDeVitorias.php",
+		data: {
+			"resultado": fMeasure()
+		},		
+	});
+}
+
+/*
 function getListaDeVitorias(){
 	var listaDeVitorias = getStringDeVitorias() == "" ? new Array():getStringDeVitorias().split("|");
-
-	if(fMeasure() >= 70){
-		listaDeVitorias.push("s")
-		}
-		else if(fMeasure() < 70){
-		listaDeVitorias.push("n");
-		}
+	
+	
 	return listaDeVitorias;	
 }
 
@@ -429,17 +440,28 @@ function getStringDeVitorias(){
 	}
 	return stringDeVitorias;
 }
-
+*/
+//-----------------------------------------------
+// FIM DA LISTA DE VITORIAS
+//-----------------------------------------------
 
 function preencheBarraDeProgresso(atualiza) {	
-	var listaDeVitorias = atualiza?getListaDeVitorias(): getStringDeVitorias().split("|");	
-	for(i = 0; i < listaDeVitorias.length; i++){				
-		if(listaDeVitorias[i] == "s"){
-			document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-success");			
-		} else if(listaDeVitorias[i] == "n"){
-			document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-danger");			
-		}			
-	} 	
+	if (atualiza) {
+		setListaDeVitorias();
+	}
+	$.ajax({
+		type: 'GET',
+		url: "database/getSetListaDeVitorias.php",
+		success: function (data) {
+			for(i = 0; i < data.length; i++){				
+				if(data[i] == "s"){
+					document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-success");			
+				} else if(data[i] == "n"){
+					document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-danger");			
+				}			
+			} 	
+		}
+	});	
 }
 
 function preencheModal(){

@@ -4,6 +4,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$jogador->setSalarioAtual(floatval($_POST["salario"]));
 	$jogador->inserePontuacao();
 	$_SESSION["jogador"] = serialize($jogador);	
+	setcookie("score", floatval($_COOKIE["score"]) + floatval($_POST['score']));
 	echo "</script>alert('oi');</script>";
 }
 echo "</script>alert('oia');</script>";

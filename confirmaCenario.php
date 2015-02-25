@@ -16,6 +16,7 @@ $empresa = new Empresa($_GET['id_empresa']); // Criacao da sessao com o id da em
 $_SESSION['empresa'] = serialize($empresa);
 $jogador->setSalarioAtual($nivel->getSalarioInicial());
 $_SESSION["jogador"] = serialize($jogador);
+setcookie("score", 0); // criando um cookie para guarda o score obtido.
 ?>
 <div class="confirmaEmprego">	
 	<h4>Dados da Vaga:</h4>

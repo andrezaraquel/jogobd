@@ -6,6 +6,7 @@ class Partida extends Model {
 	private $id_empresa;	
 	private $cenariosJaApresentados;
 	private $numCenarios;
+	private $listaDeVitorias;
 		
 	function __construct($nivel, $id_empresa) {
 		parent::__construct();
@@ -14,6 +15,7 @@ class Partida extends Model {
 		$this->cenariosJaApresentados = array();
 		$cenarios = mysql_query("SELECT DISTINCT id_cenario FROM tabelas WHERE id_empresa = " . $this->id_empresa . " AND id_nivel = " . $this->nivel) or die(mysql_error());
 		$this->numCenarios = mysql_num_rows($cenarios);
+		$this->listaDeVitorias = array();
 		mysql_close();
 	}
 	
@@ -35,9 +37,16 @@ class Partida extends Model {
 		return $this->getCenarioAleatorio();
 	}
 	
-	function getNumCenarios(){		
+	function getNumCenarios() {		
 		return $this->numCenarios;
 	}
 	
+	function getListaDeVitorias() {
+		return $this->listaDeVitorias;
+	}
+	
+	function addResultadoNaListaDeVitorias($resultado) {
+		array_push($this->listaDeVitorias, $resultado);
+	}
 }
 ?>

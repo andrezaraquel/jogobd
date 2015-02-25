@@ -1,7 +1,5 @@
 <?php
 require_once("includes/models.php");
-setcookie("score", 0); // criando um cookie para guarda o score obtido.
-setcookie("podeJogar", "false");
 ?>
 <!DOCTYPE html>
 <html lang="pt-br"> 
