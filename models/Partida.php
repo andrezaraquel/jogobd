@@ -19,6 +19,10 @@ class Partida extends Model {
 		mysql_close();
 	}
 	
+	function getEmpresaId() {
+		return $this->id_empresa;	
+	}
+	
 	function getCenariosJaApresentados() {
 		return $this->cenariosJaApresentados;
 	}

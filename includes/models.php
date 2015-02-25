@@ -10,11 +10,9 @@ foreach (glob(__DIR__ . "\..\models/*.php") as $filename){
 }
 $jogador = unserialize($_SESSION["jogador"]);
 
-if (isset($_SESSION["empresa"])) {
-	$empresa = unserialize($_SESSION["empresa"]);
-}
 if (isset($_SESSION["partida"])) {
 	$partida = unserialize($_SESSION["partida"]);
+	$empresa = new Empresa($partida->getEmpresaId());
 }
 if (isset($_SESSION["cenario"])) {
 	$cenario = unserialize($_SESSION["cenario"]);

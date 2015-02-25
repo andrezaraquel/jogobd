@@ -12,10 +12,10 @@ require_once("includes/models.php");
 // pesquisa o nivel do usuario atual
 $nivel = new Nivel($jogador->getNivel());
 $empresa = new Empresa($_GET['id_empresa']); // Criacao da sessao com o id da empresa que o usuario selecionou
-
-$_SESSION['empresa'] = serialize($empresa);
 $jogador->setSalarioAtual($nivel->getSalarioInicial());
 $_SESSION["jogador"] = serialize($jogador);
+$partida = new Partida($jogador->getNivel(), $_GET['id_empresa']);
+$_SESSION["partida"] = serialize($partida);
 setcookie("score", 0); // criando um cookie para guarda o score obtido.
 ?>
 <div class="confirmaEmprego">	

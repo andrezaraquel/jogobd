@@ -4,7 +4,6 @@ class Empresa extends Model {
 	
 	private $id;
 	private $nome;
-	private $listaDeVitorias;
 	
 	function __construct($id){
 		parent::__construct();
@@ -13,7 +12,6 @@ class Empresa extends Model {
 		$empresa = mysql_fetch_array($pesquisaEmpresa);
 		$this->nome = $empresa['nome']; 
 		mysql_close();
-		$this->listaDeVitorias = array();
 	}
 	
 	function getId() {

@@ -103,7 +103,7 @@ foreach($tabelas as &$tabela) {
 ?>
 	   
 <!--Botao que avanca quando esta enable.Precisa redirecionar para outra pagina e verificar os erros e acertos do usuario.--->
-<div id = 'divBotao'><input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onclick =  'avancar(<?php if ($jogador->getNivel() <= 2) { echo("true"); } else { echo("false"); } ?>7)' action = 'mostraCenarios.php'/></div>
+<div id = 'divBotao'><input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onclick =  'avancar(<?php if ($jogador->getNivel() <= 2) { echo("true"); } else { echo("false"); } ?>)' action = 'mostraCenarios.php'/></div>
 
 <div>
 	<div id = "divResultado"></div>

@@ -6,9 +6,8 @@ authors: Andreza Raquel e Dandara Navarro
 <?php
 require_once("includes/models.php");
 
-if (!isset($_SESSION["empresa"])) {
-	echo "<script>console.log('N tem empresa');</script>";
-	//header('Location: classificados.php');
+if (!isset($partida)) {
+	header('Location: classificados.php');
 	exit;
 }
 
