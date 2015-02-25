@@ -7,10 +7,11 @@ authors: Andreza Raquel e Dandara Navarro
 require_once("includes/models.php");
 
 if (!isset($_SESSION["empresa"])) {
-	echo "<script>alert('N tem empresa');</script>";
-	header('Location: classificados.php');
+	echo "<script>console.log('N tem empresa');</script>";
+	//header('Location: classificados.php');
 	exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br"> 

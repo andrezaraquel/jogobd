@@ -6,6 +6,7 @@ $numCenarios = $partida->getNumCenarios();
 $nivel = new Nivel($jogador->getNivel());
 $salarioInicial = $nivel->getSalarioInicial();
 $nivelAtual = $jogador->getNivel();
+$cenarioAtual = count($partida->getListaDeVitorias()) + 1;
 
 switch($nivelAtual) {
 	case 1:

@@ -8,6 +8,7 @@ var salarioInicial;
 var salarioAtual;
 var nivelAtual;
 var proximoNivel;
+var cenarioAtual;
 
 var errosExistentes;
 var numErrosEncontrados;
@@ -36,6 +37,7 @@ $(function () {
 			nivelAtual = parseInt(json.nivelAtual);
 			proximoNivel = data.proximoNivel;
 			score = parseFloat(data.score);
+			cenarioAtual = parseInt(json.cenarioAtual);
 			//----------------------
 
 			errosExistentes = parseInt($("#numeroDeErrosExistentes").html());
@@ -45,10 +47,10 @@ $(function () {
 			clicked = 0;
 			tempo;
 
-			if (numCenarios < 5) {
-				preencheBarraDeProgresso(false);
+			if (cenarioAtual < 5) {
+				preencheBarraDeProgresso(false); // parametro false significa que nao precisa atualizar a lista de vitorias
 			} else {
-				limpaProgresso();		
+				limpaProgresso(); // inicia a barra de progresso branca		
 			}
 
 			segundos = tempoMaximoPorNivel();
@@ -344,6 +346,12 @@ function calculaAumentoSalarial(callback) {
 			salarioAtual = salario;
 			$("#placar").html(salario);
 			callback();
+		},
+		fail: function(data) {
+			console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
 		}
 	});
 }
@@ -385,11 +393,11 @@ function avancaCenario(){
 }
 
 /*Funcao para o botao de avancar. So redireciona se o botao estiver habilitado ou se o tempo acabou*/
-function avancar(tempoEsgotado, numCenarios){
+function avancar(tempoEsgotado){
 	if (($("#buttonAvancar")).hasClass("enable") || tempoEsgotado) { // verifica se o botao esta habilitado.
-		if (numCenarios == 4 && nivelAtual == 4){
+		if (cenarioAtual == 5 && nivelAtual == 4){
 			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar enable' href = '#ModalAvancar'>Encerrar</a>";
-		} else if(numCenarios == 4) {		
+		} else if(cenarioAtual == 5) {		
 			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar enable' href = '#ModalAvancar'>Avançar</a>";
 		} else {
 			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar enable' onClick = 'avancaCenario()'/>";
@@ -402,12 +410,12 @@ function avancar(tempoEsgotado, numCenarios){
 			mostraResultado(); // mostra o resultado das marcacoes na tela
 			mostraScore();
 			calculaAumentoSalarial(function() {				
-				if (numCenarios == 4){
+				preencheBarraDeProgresso(true); // parametro true significa que eh preciso atualizar a lista de vitorias
+				if (cenarioAtual == 5){
 					preencheModal();
 				} 
 			});			
 		});
-		preencheBarraDeProgresso(true);
 	}	
 }
 
@@ -415,13 +423,13 @@ function avancar(tempoEsgotado, numCenarios){
 // LISTA DE VITORIAS
 //-----------------------------------------------
 
-function setListaDeVitorias() {
+function setListaDeVitorias(callback) {
 	$.ajax({
 		type: "POST",
 		url: "database/getSetListaDeVitorias.php",
 		data: {
 			"resultado": fMeasure()
-		},		
+		}
 	});
 }
 
@@ -434,13 +442,12 @@ function getListaDeVitorias(){
 }
 
 function getStringDeVitorias(){
-	var stringDeVitorias = $.cookie("stringDeVitorias");
+	var stringDeVitorias = "nns";//$.cookie("stringDeVitorias");
 	if(typeof stringDeVitorias == "undefined"){
 		stringDeVitorias = "";
 	}
 	return stringDeVitorias;
-}
-*/
+}*/
 //-----------------------------------------------
 // FIM DA LISTA DE VITORIAS
 //-----------------------------------------------
@@ -453,6 +460,7 @@ function preencheBarraDeProgresso(atualiza) {
 		type: 'GET',
 		url: "database/getSetListaDeVitorias.php",
 		success: function (data) {
+			console.log(data);
 			for(i = 0; i < data.length; i++){				
 				if(data[i] == "s"){
 					document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-success");			

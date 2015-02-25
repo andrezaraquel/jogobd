@@ -1,6 +1,6 @@
 <?php
+require_once("../includes/models.php");
 if($_SERVER["REQUEST_METHOD"] == "POST") {
-	require_once("../includes/models.php");
 	if(floatval($_POST["resultado"]) >= 70){
 		$partida->addResultadoNaListaDeVitorias("s");
 	} else {
@@ -9,9 +9,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	$_SESSION["partida"] = serialize($partida);
 	
 } else if($_SERVER["REQUEST_METHOD"] == "GET") {
-	require_once("../includes/models.php");
 	$lista = $partida->getListaDeVitorias();
-	$_SESSION["partida"] = serialize($partida);	
-	echo $lista;	
+	$vitorias = "";
+	for ($i = 0; $i < count($lista); $i++) {
+		$vitorias += $lista[$i];
+	}
+	echo $vitorias;	
 }
 ?>
