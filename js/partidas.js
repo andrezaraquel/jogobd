@@ -25,8 +25,6 @@ $(function () {
 		type: 'get',
 		url: 'database/getData.php',
 		success: function(data) {
-				
-			console.log(data);
 			var json = JSON.parse(data);
 
 			//----------------------
@@ -340,7 +338,7 @@ function calculaAumentoSalarial(callback) {
 		type: 'POST',
 		url: 'database/setSalarioAtual.php',
 		data: {
-			salario: salario
+			"salario": salario
 		},
 		success: function() {
 			salarioAtual = salario;
@@ -383,8 +381,7 @@ function mostraScore(){
 
 /*Funcao redireciona para outro cenario*/
 function avancaCenario(){	
-	var salarioAtual = document.getElementById('placar').innerHTML; // o salario atual do jogador
-	location.href="avancaCenario.php?salarioAtual="+salarioAtual; // redireciona para mudar o cenario
+	window.location.href = 'jogo.php';
 }
 
 /*Funcao para o botao de avancar. So redireciona se o botao estiver habilitado ou se o tempo acabou*/
@@ -409,7 +406,6 @@ function avancar(tempoEsgotado, numCenarios){
 				if (numCenarios == 4){
 					preencheModal();
 				} 
-				//getScore();	
 			});
 		});
 	}	
@@ -450,7 +446,6 @@ function preencheBarraDeProgresso(atualiza) {
 function preencheModal(){
 	var jogadorVenceu = score >= 210 || (score >= 140 && $("#fase4").hasClass("progress-bar-success"));
 	if(jogadorVenceu && nivelAtual == 4){
-		$.cookie("podeJogar", "false");
 		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco-vencedor.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você conseguiu terminar todas as etapas.</h5><a class='btn btn-success' style='margin-left: 25%;' href='ranking.php'>Verificar o Ranking</a></div>";													
 	} else if(jogadorVenceu){											
 		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco_promovido.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você obteve um desempenho bastante satisfatório. Por isso, foi promovido para "+proximoNivel+"<h5><a class='btn btn-success' style='margin-left: 25%;' href='jogo.php'>Continuar o trabalho</a></div>";													
