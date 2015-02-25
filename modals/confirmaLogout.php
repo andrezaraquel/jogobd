@@ -17,8 +17,10 @@
 
 <script type="text/javascript">
 function demissao() {
+	<?php 
 	unset($_SESSION["empresa"]);
 	unset($_SESSION["cenario"]);
 	unset($_SESSION["partida"]);
+	?>
 }
 </script>

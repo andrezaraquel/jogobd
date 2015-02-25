@@ -167,58 +167,7 @@ window.___gcfg = {lang: 'en-GB'};
 		}			
 	}
 ?>
-	
-	
-	<?php	
-/*	
-	require_once 'mostraCenarios.php'; // conexao com o arquivo que desenha os cenarios na tela
-		if (count($listaDeCenarios) < 5 ){
-			selecionaTabelas();		
-		} else {
-			$_SESSION['listaDeCenarios'] = array();
-			$_SESSION['listaDeVitorias'] = array();
-			if($_SESSION["id_nivel"] < 4){
-				if( $_SESSION['score'] >= 210){
-					
-				
-					include("acessaBD.php");
-					inserePontuacao(mysql_real_escape_string($_SESSION['email']));
-					mysql_close();
-					
-					switch($_SESSION["id_nivel"]){
-						case 1:
-							$_SESSION["id_nivel"] = 2;
-							break;
-						case 2:
-							$_SESSION["id_nivel"] = 3;
-							break;
-						case 3:
-							$_SESSION["id_nivel"] = 4;
-							break;
-					
-					}
-					include ('acessaBD.php');
-					mysql_query("UPDATE cadastros SET id_nivel=".$_SESSION["id_nivel"]. " WHERE email ='".$_SESSION["email"]. "'");
-					
-					$pesquisaSalario = mysql_query("SELECT salarioInicial FROM nivel WHERE id_nivel = ".$_SESSION["id_nivel"]);
-					$salario = mysql_fetch_array($pesquisaSalario);
-					
-					$_SESSION["salarioInicial"] = $salario["salarioInicial"];	
-					
-					
-					echo "<script>avancaCenario();</script>";
-					
-					mysql_close();
-				
-				
-				}			
-				
-			}
-			
-		}*/
-		?>
 
-		
 </body>
 </html>
 		
