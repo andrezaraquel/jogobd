@@ -149,24 +149,6 @@ window.___gcfg = {lang: 'en-GB'};
 </script>
 <!--twitter-->
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-	
-<?php 		
-	function inserePontuacao($email){
-		$registroEmail = mysql_query("SELECT * FROM ranking WHERE email = '". $email."'")or die(mysql_error()); // pesquisa no bd o erro que tem o id recebido
-		
-		$id_nivel = $_SESSION['id_nivel'];
-		$pesquisaNivel = mysql_query("SELECT * FROM nivel WHERE id_nivel = $id_nivel") or die(mysql_error());
-		$nivel = mysql_fetch_array($pesquisaNivel);
-		
-		
-		
-		if (mysql_num_rows($registroEmail) > 0){
-			mysql_query("UPDATE ranking SET nivel = '".$nivel["sigla"]."', pontuacao = '".$_SESSION["salarioAtual"]."' WHERE email = '".$email."'")or die(mysql_error());
-		} else{
-			mysql_query("INSERT INTO ranking (email, nome, nivel, pontuacao) VALUES ('".$_SESSION["email"]."', '".$_SESSION["nome"]."', '".$nivel["sigla"]."', '".$_SESSION["salarioAtual"]."')")or die(mysql_error());
-		}			
-	}
-?>
 
 </body>
 </html>

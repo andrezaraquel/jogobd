@@ -433,7 +433,6 @@ function getStringDeVitorias(){
 
 function preencheBarraDeProgresso(atualiza) {	
 	var listaDeVitorias = atualiza?getListaDeVitorias(): getStringDeVitorias().split("|");	
-	//alert("passou daqui: " + listaDeVitorias);
 	for(i = 0; i < listaDeVitorias.length; i++){				
 		if(listaDeVitorias[i] == "s"){
 			document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-success");			
