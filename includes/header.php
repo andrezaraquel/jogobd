@@ -3,7 +3,6 @@
 <title>Mr. Data Analyst</title>
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" >
 <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" >
 <link href="css/font-awesome.min.css" rel="stylesheet">
 

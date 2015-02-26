@@ -1,6 +1,6 @@
 <?php
 if (isset($_SESSION["navbar"]) && ($_SESSION["navbar"] != "logout" || isset($_SESSION["jogador"]))): ?>
-	<nav class='navbar navbar-default navbar-static-top' role='navigation' style='background-color: #B0C4DE !important;'>
+	<nav class='navbar navbar-default navbar-static-top' role='navigation'>
 		<div class='container'>
 			<div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
 				 <?php if (isset($_SESSION["jogador"]) && $_SESSION["navbar"] == "logout"): ?>
