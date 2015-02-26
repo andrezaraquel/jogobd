@@ -51,7 +51,7 @@ $(function () {
 
 			desenhaBarra(progresso);
 			//if (cenarioAtual < 5) {
-				preencheBarraDeProgresso(false); // parametro false significa que nao precisa atualizar a lista de vitorias
+				preencheBarraDeProgresso(false, null); // parametro false significa que nao precisa atualizar a lista de vitorias
 			//} else {
 			//	limpaProgresso(); // inicia a barra de progresso branca		
 			//}
@@ -179,7 +179,7 @@ function contadorRegressivo() {
 		}, 1000);
 	} else {
 		alert("Tempo Esgotado! :(");
-		avancar(true, null); // parametro de controle. Ele sendo true pode avancar mesmo q o botao esteja desabilitado
+		avancar(true); // parametro de controle. Ele sendo true pode avancar mesmo q o botao esteja desabilitado
 	}
 }
 
@@ -399,11 +399,11 @@ function avancaCenario(){
 function avancar(tempoEsgotado){
 	if (($("#buttonAvancar")).hasClass("enable") || tempoEsgotado) { // verifica se o botao esta habilitado.
 		if (cenarioAtual == 5 && nivelAtual == 4){
-			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar enable' href = '#ModalAvancar'>Encerrar</a>";
+			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar disable' href = '#ModalAvancar'>Encerrar</a>";
 		} else if(cenarioAtual == 5) {		
-			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar enable' href = '#ModalAvancar'>Avançar</a>";
+			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar disable' href = '#ModalAvancar'>Avançar</a>";
 		} else {
-			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar enable' onClick = 'avancaCenario()'/>";
+			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onClick = 'avancaCenario()'/>";
 		}
 		
 		segundos = null; //pausa o tempo
@@ -413,7 +413,10 @@ function avancar(tempoEsgotado){
 			mostraResultado(); // mostra o resultado das marcacoes na tela
 			mostraScore();
 			calculaAumentoSalarial(function() {				
-				preencheBarraDeProgresso(true); // parametro true significa que eh preciso atualizar a lista de vitorias
+				preencheBarraDeProgresso(true, function() {
+					$("#buttonAvancar").removeClass("disable");
+					$("#buttonAvancar").addClass("enable");
+				}); // parametro true significa que eh preciso atualizar a lista de vitorias
 				if (cenarioAtual == 5){
 					preencheModal();
 				} 
@@ -426,12 +429,15 @@ function avancar(tempoEsgotado){
 // LISTA DE VITORIAS
 //-----------------------------------------------
 
-function setListaDeVitorias(callback) {
+function setListaDeVitorias() {
 	$.ajax({
 		type: "POST",
 		url: "database/getSetListaDeVitorias.php",
 		data: {
 			"resultado": fMeasure()
+		}, 
+		success: function() {
+			getListaDeVitorias(null);
 		}
 	});
 }
@@ -465,17 +471,25 @@ function desenhaBarra(progresso) {
 	}
 }
 
-function preencheBarraDeProgresso(atualiza) {	
-	if (atualiza) {
-		setListaDeVitorias();
-	}		
+function getListaDeVitorias(callback) {
 	$.ajax({
 		type: 'GET',
 		url: "database/getSetListaDeVitorias.php",
 		success: function (data) {
-			desenhaBarra(data);
+			desenhaBarra(data);			
+			if(callback != null){
+				callback();
+			}
 		}
 	});	
+}
+
+function preencheBarraDeProgresso(atualiza, callback) {	
+	if (atualiza) {
+		setListaDeVitorias();
+	} else {
+		getListaDeVitorias(callback);
+	}		
 }
 
 function preencheModal(){
