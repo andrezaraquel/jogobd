@@ -9,6 +9,7 @@ var salarioAtual;
 var nivelAtual;
 var proximoNivel;
 var cenarioAtual;
+var progresso;
 
 var errosExistentes;
 var numErrosEncontrados;
@@ -27,7 +28,7 @@ $(function () {
 		url: 'database/getData.php',
 		success: function(data) {
 			var json = JSON.parse(data);
-
+			
 			//----------------------
 			// COOKIE
 			//----------------------
@@ -35,9 +36,10 @@ $(function () {
 			salarioInicial = json.salarioInicial;
 			salarioAtual = json.salarioAtual;
 			nivelAtual = parseInt(json.nivelAtual);
-			proximoNivel = data.proximoNivel;
-			score = parseFloat(data.score);
+			proximoNivel = json.proximoNivel;
+			score = parseFloat(json.score);
 			cenarioAtual = parseInt(json.cenarioAtual);
+			progresso = json.progresso;
 			//----------------------
 
 			errosExistentes = parseInt($("#numeroDeErrosExistentes").html());
@@ -47,11 +49,12 @@ $(function () {
 			clicked = 0;
 			tempo;
 
-			if (cenarioAtual < 5) {
+			desenhaBarra(progresso);
+			//if (cenarioAtual < 5) {
 				preencheBarraDeProgresso(false); // parametro false significa que nao precisa atualizar a lista de vitorias
-			} else {
-				limpaProgresso(); // inicia a barra de progresso branca		
-			}
+			//} else {
+			//	limpaProgresso(); // inicia a barra de progresso branca		
+			//}
 
 			segundos = tempoMaximoPorNivel();
 			tempoMaximo = segundos;
@@ -452,22 +455,25 @@ function getStringDeVitorias(){
 // FIM DA LISTA DE VITORIAS
 //-----------------------------------------------
 
+function desenhaBarra(progresso) {
+	for (i = 0; i < progresso.length; i++) {
+		if (progresso[i] == "s") {
+			document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-success");
+		} else {
+			document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-danger");	
+		}
+	}
+}
+
 function preencheBarraDeProgresso(atualiza) {	
 	if (atualiza) {
 		setListaDeVitorias();
-	}
+	}		
 	$.ajax({
 		type: 'GET',
 		url: "database/getSetListaDeVitorias.php",
 		success: function (data) {
-			console.log(data);
-			for(i = 0; i < data.length; i++){				
-				if(data[i] == "s"){
-					document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-success");			
-				} else if(data[i] == "n"){
-					document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-danger");			
-				}			
-			} 	
+			desenhaBarra(data);
 		}
 	});	
 }

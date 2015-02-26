@@ -10,7 +10,6 @@ if (!isset($partida)) {
 	header('Location: classificados.php');
 	exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br"> 

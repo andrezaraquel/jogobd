@@ -39,5 +39,13 @@ class Cenario extends Model {
 		return $this->tabelas;
 	}	
 	
+	function commit() {
+		setcookie("cenario", serialize($this), time()+3600*24*30, '/');
+	}
+	
+	function delete() {
+		setcookie("cenario", null);
+	}
+	
 }
 ?>

@@ -27,5 +27,14 @@ class Empresa extends Model {
 		mysql_close();
 		return mysql_fetch_array($query);
 	}
+	
+	function commit() {
+		setcookie("empresa", serialize($this), time()+3600*24*30, '/');
+	}
+	
+	function delete() {
+		setcookie("empresa", null);
+	}
+	
 }
 ?>

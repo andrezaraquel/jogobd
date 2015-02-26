@@ -2,10 +2,9 @@
 
 require_once("../includes/models.php");
 
-$numCenarios = $partida->getNumCenarios();
-$nivel = new Nivel($jogador->getNivel());
-$salarioInicial = $nivel->getSalarioInicial();
 $nivelAtual = $jogador->getNivel();
+$nivel = new Nivel($nivelAtual);
+$salarioInicial = $nivel->getSalarioInicial();
 $cenarioAtual = count($partida->getListaDeVitorias()) + 1;
 
 switch($nivelAtual) {
@@ -22,7 +21,10 @@ switch($nivelAtual) {
 		$proximoNivel = "";
 }
 
-$json = '{"salarioAtual": ' . $jogador->getSalarioAtual() . ', "numCenarios":' . $numCenarios . ', "salarioInicial":' . $salarioInicial . ', "nivelAtual":' . $nivelAtual . ', "proximoNivel":"' . $proximoNivel . '", "score":' . $_COOKIE['score'] . '}';
+$lista = $partida->getListaDeVitorias();
+$vitorias = implode("", $lista);
+
+$json = '{"salarioAtual": ' . $jogador->getSalarioAtual() . ', "numCenarios":' . $partida->getNumCenarios() . ', "salarioInicial":' . $salarioInicial . ', "nivelAtual":' . $nivelAtual . ', "proximoNivel":"' . $proximoNivel . '", "score":' . $jogador->getScore() . ', "progresso": "' . $vitorias . '"}';
 
 echo $json;
 ?>

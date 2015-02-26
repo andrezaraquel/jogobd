@@ -4,7 +4,8 @@ require_once("includes/models.php");
 $nivel = new Nivel($jogador->getNivel());
 $partida = new Partida($jogador->getNivel(), $empresa->getId());
 if ($partida->getNumCenarios() < 5) {
-	unset($_SESSION['empresa']);
+	$partida->delete();
+	$empresa->delete();
 	echo '<script>
 	alert("Não existem vagas suficientes para esta empresa.");
 	window.location.href="classificados.php";
@@ -12,8 +13,8 @@ if ($partida->getNumCenarios() < 5) {
 	exit;
 } else {
 	$cenario = new Cenario($empresa->getId(), $jogador->getNivel(), $partida->getCenarioAleatorio());
-	$_SESSION["cenario"] = serialize($cenario);
-	$_SESSION["partida"] = serialize($partida);
+	$cenario->commit();
+	$partida->commit();
 }
 
 require_once("modals/avancar.php"); 
@@ -36,16 +37,6 @@ for ($i = 0; $i < count($nomesTabelas); $i++) {
 	<link href="css/partidas.css" rel="stylesheet" >
 </head>
 <body>
-
-<?php
-/*
-if(count($_SESSION['listaDeCenarios']) > count($_SESSION['listaDeVitorias'])){
-				array_push($_SESSION['listaDeVitorias'], "n");
-}
-setcookie("stringDeVitorias", implode("|", $_SESSION['listaDeVitorias']));
-setcookie("numCenarios", count($_SESSION['listaDeCenarios']));
-*/
-?>
 
 <div class = "row class='col-sm-12'">
 	<h1 class="content-title">Mr. Data Analyst</h1>                   

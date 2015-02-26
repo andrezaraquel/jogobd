@@ -17,8 +17,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	 
 	if (mysql_num_rows($sql) > 0) {
 		session_start();
-		$jogador = new Jogador($cadastro["nome"], $usuario_email, $cadastro["id_nivel"], $cadastro["sexo"]);
-		$_SESSION['jogador'] = serialize($jogador);
+		$jogador = new Jogador($cadastro["nome"], $usuario_email, $cadastro["sexo"], $cadastro["id_nivel"]);
+		$_SESSION["jogador"] = serialize($jogador);
 	} else{	
 		header("HTTP/1.1 400 E-mail ou senha inv&#225;lido.");
 	}

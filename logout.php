@@ -5,10 +5,10 @@ authors: Andreza Raquel e Dandara Navarro
 session_start(); 
 session_destroy();
 setcookie("score", null);
-setcookie("salarioInicial", null);
-setcookie("id_nivel", null);
-setcookie("stringDeVitorias", null);
-setcookie("numCenarios", null);
-setcookie("proximoNivel", null);
+setcookie("nivel", null);
+setcookie("salarioAtual", null);
+setcookie("empresa", null);
+setcookie("partida", null);
+setcookie("cenario", null);
 header('Location: index.php');
 ?>

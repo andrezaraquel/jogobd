@@ -12,7 +12,7 @@
 <script src="js/jquery.validate.js" type= "text/javascript"></script>
 <!--Muda as cores de alguns itens visuais do jogo dependendo do sexo do usuario-->
 <?php
-	if (isset($_SESSION) and isset($_SESSION['jogador'])){
+	if (isset($_SESSION['jogador'])){
 		require_once('models/Jogador.php');
 		$jogador = unserialize($_SESSION['jogador']);
 		if ($jogador->getSexo() == 'feminino') {

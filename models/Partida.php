@@ -52,5 +52,14 @@ class Partida extends Model {
 	function addResultadoNaListaDeVitorias($resultado) {
 		array_push($this->listaDeVitorias, $resultado);
 	}
+	
+	function commit() {	
+		setcookie("partida", serialize($this), time()+3600*24*30, '/');
+	}
+	
+	function delete() {
+		setcookie("partida", null);
+	}
+	
 }
 ?>
