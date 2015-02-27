@@ -57,6 +57,7 @@ class Partida extends Model {
 		setcookie("partida", serialize($this), time()+3600*24*30, '/');
 	}
 	
+		
 	function delete() {
 		setcookie("partida", null);
 	}

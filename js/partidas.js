@@ -38,7 +38,9 @@ $(function () {
 			nivelAtual = parseInt(json.nivelAtual);
 			proximoNivel = json.proximoNivel;
 			score = parseFloat(json.score);
+			console.log("score " + score);
 			cenarioAtual = parseInt(json.cenarioAtual);
+			console.log("cenarioAtual " + cenarioAtual)
 			progresso = json.progresso;
 			//----------------------
 
@@ -51,7 +53,7 @@ $(function () {
 
 			desenhaBarra(progresso);
 			//if (cenarioAtual < 5) {
-				preencheBarraDeProgresso(false, null); // parametro false significa que nao precisa atualizar a lista de vitorias
+				preencheBarraDeProgresso(false); // parametro false significa que nao precisa atualizar a lista de vitorias
 			//} else {
 			//	limpaProgresso(); // inicia a barra de progresso branca		
 			//}
@@ -342,8 +344,8 @@ function calculaAumentoSalarial(callback) {
 		type: 'POST',
 		url: 'database/setPontuacao.php',
 		data: {
-			"salario": salario,
-			"score": fMeasure()
+			"score": fMeasure(),
+			"salario": salario
 		},
 		success: function() {
 			salarioAtual = salario;
@@ -391,8 +393,10 @@ function mostraScore(){
 }
 
 /*Funcao redireciona para outro cenario*/
-function avancaCenario(){	
-	window.location.href = 'jogo.php';
+function avancaCenario(){
+	if ($("#buttonAvancar").hasClass("enable")) {
+		window.location.href = 'jogo.php';
+	}
 }
 
 /*Funcao para o botao de avancar. So redireciona se o botao estiver habilitado ou se o tempo acabou*/
@@ -413,10 +417,7 @@ function avancar(tempoEsgotado){
 			mostraResultado(); // mostra o resultado das marcacoes na tela
 			mostraScore();
 			calculaAumentoSalarial(function() {				
-				preencheBarraDeProgresso(true, function() {
-					$("#buttonAvancar").removeClass("disable");
-					$("#buttonAvancar").addClass("enable");
-				}); // parametro true significa que eh preciso atualizar a lista de vitorias
+				preencheBarraDeProgresso(true); // parametro true significa que eh preciso atualizar a lista de vitorias
 				if (cenarioAtual == 5){
 					preencheModal();
 				} 
@@ -437,26 +438,11 @@ function setListaDeVitorias() {
 			"resultado": fMeasure()
 		}, 
 		success: function() {
-			getListaDeVitorias(null);
+			getListaDeVitorias();
 		}
 	});
 }
 
-/*
-function getListaDeVitorias(){
-	var listaDeVitorias = getStringDeVitorias() == "" ? new Array():getStringDeVitorias().split("|");
-	
-	
-	return listaDeVitorias;	
-}
-
-function getStringDeVitorias(){
-	var stringDeVitorias = "nns";//$.cookie("stringDeVitorias");
-	if(typeof stringDeVitorias == "undefined"){
-		stringDeVitorias = "";
-	}
-	return stringDeVitorias;
-}*/
 //-----------------------------------------------
 // FIM DA LISTA DE VITORIAS
 //-----------------------------------------------
@@ -469,26 +455,26 @@ function desenhaBarra(progresso) {
 			document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-danger");	
 		}
 	}
+	
+	$("#buttonAvancar").removeClass("disable");
+	$("#buttonAvancar").addClass("enable");
 }
 
-function getListaDeVitorias(callback) {
+function getListaDeVitorias() {
 	$.ajax({
 		type: 'GET',
 		url: "database/getSetListaDeVitorias.php",
 		success: function (data) {
-			desenhaBarra(data);			
-			if(callback != null){
-				callback();
-			}
+			desenhaBarra(data);
 		}
 	});	
 }
 
-function preencheBarraDeProgresso(atualiza, callback) {	
+function preencheBarraDeProgresso(atualiza) {	
 	if (atualiza) {
 		setListaDeVitorias();
 	} else {
-		getListaDeVitorias(callback);
+		getListaDeVitorias();
 	}		
 }
 
@@ -498,8 +484,7 @@ function preencheModal(){
 		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco-vencedor.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você conseguiu terminar todas as etapas.</h5><a class='btn btn-success' style='margin-left: 25%;' href='ranking.php'>Verificar o Ranking</a></div>";													
 	} else if(jogadorVenceu){											
 		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco_promovido.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você obteve um desempenho bastante satisfatório. Por isso, foi promovido para "+proximoNivel+"<h5><a class='btn btn-success' style='margin-left: 25%;' href='jogo.php'>Continuar o trabalho</a></div>";													
-	} else {
-													
+	} else {													
 		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco-demitido.png' style ='float:left;margin:0 20px 10px 10px;'><h5>Você foi demitido por não atingir uma média de 70% em pelo menos 3 partidas.</h5>	<a class='btn btn-danger' style='margin-left: 25%;' href='classificados.php'>Sair da empresa</a></div>";
 	}
 

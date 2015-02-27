@@ -24,7 +24,7 @@ switch($nivelAtual) {
 $lista = $partida->getListaDeVitorias();
 $vitorias = implode("", $lista);
 
-$json = '{"salarioAtual": ' . $jogador->getSalarioAtual() . ', "numCenarios":' . $partida->getNumCenarios() . ', "salarioInicial":' . $salarioInicial . ', "nivelAtual":' . $nivelAtual . ', "proximoNivel":"' . $proximoNivel . '", "score":' . $jogador->getScore() . ', "progresso": "' . $vitorias . '"}';
+$json = '{"salarioAtual": ' . $jogador->getSalarioAtual() . ', "numCenarios":' . $partida->getNumCenarios() . ', "salarioInicial":' . $salarioInicial . ', "nivelAtual":' . $nivelAtual . ', "proximoNivel":"' . $proximoNivel . '", "score":' . $jogador->getScore() . ', "progresso": "' . $vitorias . '", "cenarioAtual": "' . $cenarioAtual .'"}';
 
 echo $json;
 ?>

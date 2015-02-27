@@ -6,7 +6,7 @@ authors: Andreza Raquel e Dandara Navarro
 <?php
 require_once("includes/models.php");
 
-if (!isset($partida)) {
+if (!isset($partida) && !isset($_COOKIE["partida"])) {
 	header('Location: classificados.php');
 	exit;
 }
