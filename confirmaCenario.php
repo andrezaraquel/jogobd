@@ -2,7 +2,7 @@
 require_once("includes/models.php");
 $jogador = Jogador::getJogador();
 $nivel = new Nivel($jogador->getNivel());
-$empresa = new Empresa($_GET["empresaId"]);
+$empresa = new Empresa($_SESSION["empresaId"]);
 ?>
 <!DOCTYPE html>
 <head> 
@@ -28,7 +28,7 @@ $(".botaoAceita").click(function() {
 		url: 'database/contratar.php',
 		type: 'post',
 		data: {
-			"empresaId" : "<?php echo $_GET["empresaId"]; ?>"
+			"empresaId" : "<?php echo $_SESSION["empresaId"]; ?>"
 		},
 		success: function(data) {
 			javaScript:parent.location = 'jogo.php';
