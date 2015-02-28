@@ -413,13 +413,17 @@ function avancar(tempoEsgotado){
 		
 		 // colore as celulas marcadas ou nao
 		mostraErros(function() {
+			$("#buttonAvancar").removeClass("enable");
 			mostraResultado(); // mostra o resultado das marcacoes na tela
 			mostraScore();
 			calculaAumentoSalarial(function() {				
-				preencheBarraDeProgresso(true); // parametro true significa que eh preciso atualizar a lista de vitorias
-				if (cenarioAtual == 5){
-					preencheModal();
-				} 
+				preencheBarraDeProgresso(true, function() {
+					if (cenarioAtual == 5){
+						preencheModal();
+						$("#buttonAvancar").addClass("enable");
+					} 
+				}); // parametro true significa que eh preciso atualizar a lista de vitorias
+
 			});			
 		});
 	}	
@@ -429,7 +433,7 @@ function avancar(tempoEsgotado){
 // LISTA DE VITORIAS
 //-----------------------------------------------
 
-function setListaDeVitorias() {
+function setListaDeVitorias(callback) {
 	$.ajax({
 		type: "POST",
 		url: "database/getSetListaDeVitorias.php",
@@ -437,7 +441,7 @@ function setListaDeVitorias() {
 			"resultado": fMeasure()
 		}, 
 		success: function(data) {
-			getListaDeVitorias();
+			getListaDeVitorias(callback);
 		}
 	});
 }
@@ -459,21 +463,24 @@ function desenhaBarra(progresso) {
 	$("#buttonAvancar").addClass("enable");
 }
 
-function getListaDeVitorias() {
+function getListaDeVitorias(callback) {
 	$.ajax({
 		type: 'GET',
 		url: "database/getSetListaDeVitorias.php",
 		success: function (data) {
 			desenhaBarra(data);
+			if (callback) {
+				callback();
+			}
 		}
 	});	
 }
 
-function preencheBarraDeProgresso(atualiza) {	
+function preencheBarraDeProgresso(atualiza, callback) {	
 	if (atualiza) {
-		setListaDeVitorias();
+		setListaDeVitorias(callback);
 	} else {
-		getListaDeVitorias();
+		getListaDeVitorias(callback);
 	}		
 }
 
