@@ -29,7 +29,7 @@ $(function () {
 		success: function(data) {
 			console.log(data);
 			var json = JSON.parse(data);
-			console.log(json);
+			//console.log(json);
 			//----------------------
 			// SESSION DATA
 			//----------------------
@@ -346,7 +346,7 @@ function calculaAumentoSalarial(callback) {
 			"score": fMeasure(),
 			"salario": salario
 		},
-		success: function() {
+		success: function(data) {
 			salarioAtual = salario;
 			$("#placar").html(salario);
 			callback();
