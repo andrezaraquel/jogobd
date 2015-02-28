@@ -7,7 +7,7 @@
 			</header>
 			
 			<div class="modal-footer">					
-				<a class="btn btn-danger btn-large" href="classificados.php" onclick="demissao()">Pedir Demissão</a>
+				<a class="btn btn-danger btn-large" href="#" onclick="demissao()">Pedir Demissão</a>
 				<a class="btn btn-danger btn-large" href="logout.php">Sair</a>
 			 </div>
 			
@@ -17,10 +17,12 @@
 
 <script type="text/javascript">
 function demissao() {
-	<?php 
-	if (Empresa::temEmpresa()) $empresa->delete();
-	if (Cenario::temCenario()) $cenario->delete();
-	if (Partida::temPartida()) $partida->delete();
-	?>
+	$.ajax({
+		url: 'database/demissao.php',
+		type: 'POST',
+		success: function() {
+			window.location.href = 'classificados.php';
+		}
+	});
 }
 </script>

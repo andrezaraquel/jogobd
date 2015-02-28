@@ -50,7 +50,7 @@ $(function() {
 	$("#loginForm").on("submit", function() {
 		$.ajax({
 			type: 'POST',
-			url: 'database/autentificaLogin.php',
+			url: 'database/login.php',
 			data: $(this).serialize(),
 			success: function() {
 				window.location.href = "comoJogar.php";

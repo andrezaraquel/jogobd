@@ -1,25 +1,14 @@
 <?php
-
 require_once("../includes/models.php");
 
+$jogador = Jogador::getJogador();
+$partida = Partida::getPartida();
 $nivelAtual = $jogador->getNivel();
-$nivel = new Nivel($nivelAtual);
+$nivel = new Nivel($jogador->getNivel());
+
 $salarioInicial = $nivel->getSalarioInicial();
 $cenarioAtual = count($partida->getListaDeVitorias()) + 1;
-
-switch($nivelAtual) {
-	case 1:
-		$proximoNivel = "Analista de Dados Júnior";
-		break;
-	case 2:
-		$proximoNivel = "Analista de Dados Pleno";
-		break;
-	case 3:
-		$proximoNivel = "Analista de Dados Sênior";
-		break;
-	default:
-		$proximoNivel = "";
-}
+$proximoNivel = $nivel->getProximoNivel();
 
 $lista = $partida->getListaDeVitorias();
 $vitorias = implode("", $lista);

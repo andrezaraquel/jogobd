@@ -20,7 +20,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	mysql_close();
 	
 	$jogador = new Jogador($nome, $login, $sexo, 1);
-	$_SESSION["jogador"] = serialize($jogador);
+	$jogador->commmit();
+	setcookie("comoJogar", false);
 }
 ?>
 

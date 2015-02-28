@@ -1,5 +1,8 @@
 <?php
 require_once("includes/models.php");
+$jogador = Jogador::getJogador();
+$nivel = new Nivel($jogador->getNivel());
+$empresa = new Empresa($_GET["empresaId"]);
 ?>
 <!DOCTYPE html>
 <head> 
@@ -8,16 +11,7 @@ require_once("includes/models.php");
 	<script type="text/javascript" src="js/proposta.js"></script>
 </head>
 <body>
-<?php
-$nivel = new Nivel($jogador->getNivel());
-$jogador->setSalarioAtual($nivel->getSalarioInicial());
-$jogador->setScore(0);
-$empresa = new Empresa($_GET['id_empresa']); // Criacao da sessao com o id da empresa que o usuario selecionou
-$partida = new Partida($jogador->getNivel(), $_GET['id_empresa']);
-$empresa->commit();
-$partida->commit();
-$jogador->commit();
-?>
+
 <div class="confirmaEmprego">	
 	<h4>Dados da Vaga:</h4>
 	<h5><?php echo $nivel->getNome(); ?></h5>
@@ -25,8 +19,23 @@ $jogador->commit();
 	<h5>Empresa: <?php echo $empresa->getNome(); ?></h5>	
 </div>
 	
-<a href="javaScript:parent.location = 'jogo.php'" class='botaoAceita'></a>
+<a href="#" class='botaoAceita'></a>
 <a href="javaScript:parent.location = 'classificados.php'" class='botaoRejeita'></a>
+
+<script type="text/javascript">
+$(".botaoAceita").click(function() {
+	$.ajax({
+		url: 'database/contratar.php',
+		type: 'post',
+		data: {
+			"empresaId" : "<?php echo $_GET["empresaId"]; ?>"
+		},
+		success: function(data) {
+			javaScript:parent.location = 'jogo.php';
+		}
+	});
+});
+</script>
 
 </body>
 </html>

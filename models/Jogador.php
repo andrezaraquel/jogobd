@@ -7,13 +7,17 @@ class Jogador extends Model {
 	private $nome;
 	private $login;
 	private $sexo;
+	private $nivel;
+	private $salarioAtual;
+	private $score;
 	
 	function __construct($nome, $login, $sexo, $nivel) {
 		parent::__construct();
 		$this->nome = $nome;
 		$this->login = $login;
 		$this->sexo = $sexo;
-		setcookie("nivel", $nivel, time()+3600*24*30, '/');
+		$this->nivel = $nivel;
+		$this->score = $score;
 	}
 	
 	function getNome() {
@@ -33,7 +37,7 @@ class Jogador extends Model {
 	}
 	
 	function getNivel() {
-		return $_COOKIE["nivel"];
+		return $this->nivel;
 	}
 	
 	function avancaDeNivel() {
@@ -41,22 +45,23 @@ class Jogador extends Model {
 		if ($nivel < 4) $nivel++;
 		mysql_query("UPDATE cadastros SET id_nivel= " . $nivel . " WHERE email ='" . $this->email . "'");
 		mysql_close();	
+		$this->nivel = $nivel;
 	}
 	
 	function getSalarioAtual() {
-		return $_COOKIE["salarioAtual"];
+		return $this->salarioAtual;
 	}
 	
 	function setSalarioAtual($novoSalario) {
-		setcookie("salarioAtual", $novoSalario, time()+3600*24*30, '/');
+		$this->salarioAtual = $novoSalario;
 	}
 	
 	function getScore() {
-		return $_COOKIE["score"];
+		return $this->score;
 	}
 	
 	function setScore($novoScore) {
-		setcookie("score", $novoScore, time()+3600*24*30, '/');
+		$this->score = $novoScore;
 	}
 	
 	function commit() {
@@ -64,18 +69,19 @@ class Jogador extends Model {
 	}
 	
 	function inserePontuacao(){
+		/*
 		$registroEmail = mysql_query("SELECT * FROM ranking WHERE email = '". $this->login ."'")or die(mysql_error()); // pesquisa no bd o erro que tem o id recebido
 		
-		$id_nivel = $_SESSION['id_nivel'];
+		$id_nivel = $this->nivel;
 		$pesquisaNivel = mysql_query("SELECT * FROM nivel WHERE id_nivel = $id_nivel") or die(mysql_error());
 		$nivel = mysql_fetch_array($pesquisaNivel);
 		
 		if (mysql_num_rows($registroEmail) > 0) {
-			mysql_query("UPDATE ranking SET nivel = '".$nivel["sigla"]."', pontuacao = '".$_SESSION["salarioAtual"]."' WHERE email = '".$email."'")or die(mysql_error());
+			mysql_query("UPDATE ranking SET nivel = '". $nivel["sigla"] . "', pontuacao = '".$_SESSION["salarioAtual"]."' WHERE email = '". $this->email . "'")or die(mysql_error());
 		} else {
 			mysql_query("INSERT INTO ranking (email, nome, nivel, pontuacao) VALUES ('".$_SESSION["email"]."', '".$_SESSION["nome"]."', '".$nivel["sigla"]."', '".$_SESSION["salarioAtual"]."')")or die(mysql_error());
 		}	
-		mysql_close();
+		mysql_close();*/
 	}
 	
 	static function getJogador() {

@@ -1,12 +1,12 @@
 <?php
-if (isset($_SESSION["navbar"]) && ($_SESSION["navbar"] != "logout" || isset($_SESSION["jogador"]))): ?>
+if (isset($_SESSION["navbar"]) && ($_SESSION["navbar"] != "logout" || Jogador::temJogador())): ?>
 	<nav class='navbar navbar-default navbar-static-top' role='navigation'>
 		<div class='container'>
 			<div class='collapse navbar-collapse' id='bs-example-navbar-collapse-1'>
-				 <?php if (isset($_SESSION["jogador"]) && $_SESSION["navbar"] == "logout"): ?>
+				 <?php if (Jogador::temJogador() && $_SESSION["navbar"] == "logout"): ?>
 					 <ul class='nav navbar-nav'>
 						<?php require_once("models/Jogador.php");
-						$jogador = unserialize($_SESSION["jogador"]); ?>
+						$jogador = Jogador::getJogador(); ?>
 						<h3 style='color: black !important;'> Olá, <?php echo $jogador->getNome(); ?></h3>
 					 </ul>		
 				 <?php endif; ?>

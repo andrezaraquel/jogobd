@@ -38,5 +38,5 @@ $(document).ready(function(){
 	id_empresa: identificador da empresa escolhida
 */
 function mostraFrame(id_empresa){
-	document.getElementById('janela').innerHTML = "<iframe name = 'confirmaCenario' src='confirmaCenario.php?id_empresa="+id_empresa+"' scrolling='auto' frameborder='0' width='100%' height='90%'></iframe>";
+	document.getElementById('janela').innerHTML = "<iframe name = 'confirmaCenario' src='confirmaCenario.php?empresaId="+id_empresa+"' scrolling='auto' frameborder='0' width='100%' height='90%'></iframe>";
 }

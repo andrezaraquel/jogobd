@@ -1,13 +1,8 @@
 <?php
-
 require_once("../includes/models.php");
 
-$nomesTabelas = $cenario->getTabelas();
-$erros = array();
-for ($i = 0; $i < count($nomesTabelas); $i++) {
-	$tabela = new Tabela($nomesTabelas[$i]);
-	array_push($erros, $tabela->getErros());
-}
+$cenario = Cenario::getCenario();
+$erros = $cenario->getErroTabelas();
 
 echo "[";
 for ($i = 0; $i < count($erros); $i++) {

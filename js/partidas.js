@@ -27,11 +27,11 @@ $(function () {
 		type: 'get',
 		url: 'database/getData.php',
 		success: function(data) {
+			console.log(data);
 			var json = JSON.parse(data);
-			
 			console.log(json);
 			//----------------------
-			// COOKIE
+			// SESSION DATA
 			//----------------------
 			numCenarios = parseInt(json.numCenarios);
 			salarioInicial = json.salarioInicial;
@@ -39,9 +39,7 @@ $(function () {
 			nivelAtual = parseInt(json.nivelAtual);
 			proximoNivel = json.proximoNivel;
 			score = parseFloat(json.score);
-			console.log("score " + score);
 			cenarioAtual = parseInt(json.cenarioAtual);
-			console.log("cenarioAtual " + cenarioAtual)
 			progresso = json.progresso;
 			//----------------------
 
@@ -438,7 +436,7 @@ function setListaDeVitorias() {
 		data: {
 			"resultado": fMeasure()
 		}, 
-		success: function() {
+		success: function(data) {
 			getListaDeVitorias();
 		}
 	});
@@ -479,12 +477,12 @@ function preencheBarraDeProgresso(atualiza) {
 	}		
 }
 
-function jogadorAvancaDeNivel() {
+function jogadorAvancaDeNivel(callback) {
 	$.ajax({
 		type: "POST",
 		url: "database/avancaDeNivel.php",
 		success: function() {
-			console.log("Jogador Avançou de nível");	
+			callback();	
 		}	
 	});	
 }
@@ -494,8 +492,9 @@ function preencheModal(){
 	if(jogadorVenceu && nivelAtual == 4){		
 		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco-vencedor.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você conseguiu terminar todas as etapas.</h5><a class='btn btn-success' style='margin-left: 25%;' href='ranking.php'>Verificar o Ranking</a></div>";													
 	} else if(jogadorVenceu){
-		jogadorAvancaDeNivel();
-		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco_promovido.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você obteve um desempenho bastante satisfatório. Por isso, foi promovido para "+proximoNivel+"<h5><a class='btn btn-success' style='margin-left: 25%;' href='jogo.php'>Continuar o trabalho</a></div>";													
+		jogadorAvancaDeNivel(function() {
+			document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco_promovido.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você obteve um desempenho bastante satisfatório. Por isso, foi promovido para <b>"+proximoNivel+"</b>!<h5><a class='btn btn-success' style='margin-left: 25%;' href='jogo.php'>Continuar o trabalho</a></div>";	
+		});										
 	} else {													
 		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco-demitido.png' style ='float:left;margin:0 20px 10px 10px;'><h5>Você foi demitido por não atingir uma média de 70% em pelo menos 3 partidas.</h5>	<a class='btn btn-danger' style='margin-left: 25%;' href='classificados.php'>Sair da empresa</a></div>";
 	}

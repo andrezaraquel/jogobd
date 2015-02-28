@@ -1,12 +1,18 @@
 <?php
 session_start();
+require_once("models/Model.php");
+require_once("models/Jogador.php");
 
-if (!isset($_SESSION['jogador'])) { // se nao estiver logado...
+if (!Jogador::temJogador()) { // se nao estiver logado...
 	header("location: index.php"); // ...vai para a pagina inicial.
 	exit;
 } 
 
-setCookie("score", 0); // criando um cookie para guarda o score obtido.
+if (isset($_COOKIE["comoJogar"]) && $_COOKIE["comoJogar"] == true) {
+	header("location: classificados.php");
+	exit;
+}
+setcookie("comoJogar", true); //nao repete o tutorial duas vezes depois de lido
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

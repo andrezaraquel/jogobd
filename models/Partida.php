@@ -3,24 +3,24 @@ require_once("Model.php");
 class Partida extends Model {
 	
 	private $nivel;
-	private $id_empresa;	
+	private $empresaId;	
 	private $cenariosJaApresentados;
 	private $numCenarios;
 	private $listaDeVitorias;
 		
-	function __construct($nivel, $id_empresa) {
+	function __construct($nivel, $empresaId) {
 		parent::__construct();
 		$this->nivel = $nivel;
-		$this->id_empresa = $id_empresa;
+		$this->empresaId = $empresaId;
 		$this->cenariosJaApresentados = array();
-		$cenarios = mysql_query("SELECT DISTINCT id_cenario FROM tabelas WHERE id_empresa = " . $this->id_empresa . " AND id_nivel = " . $this->nivel) or die(mysql_error());
+		$cenarios = mysql_query("SELECT DISTINCT id_cenario FROM tabelas WHERE id_empresa = " . $empresaId . " AND id_nivel = " . $nivel) or die(mysql_error());
 		$this->numCenarios = mysql_num_rows($cenarios);
 		$this->listaDeVitorias = array();
 		mysql_close();
 	}
 	
 	function getEmpresaId() {
-		return $this->id_empresa;	
+		return $this->empresaId;	
 	}
 	
 	function getCenariosJaApresentados() {
@@ -35,7 +35,6 @@ class Partida extends Model {
 		$numeroMaximoDeCenarios = $this->numCenarios; // Numero de cenarios cadastrados para cada empresa naquele nivel
 		$cenarioAleatorio = rand(1, $numeroMaximoDeCenarios); // Pesquisa um numero aleatoriamente para ser o cenario
 		if (!in_array($cenarioAleatorio, $this->cenariosJaApresentados)){
-			$this->addCenarioApresentado($cenarioAleatorio);
 			return $cenarioAleatorio;
 		} 
 		return $this->getCenarioAleatorio();
@@ -54,21 +53,19 @@ class Partida extends Model {
 	}
 	
 	function commit() {	
-		setcookie("partida", serialize($this), time()+3600*24*30, '/');
+		$_SESSION["partida"] = serialize($this);
 	}
-	
 		
 	function delete() {
-		unset($_COOKIE["partida"]);
-		setcookie("partida", null, -1, '/');
+		unset($_SESSION["partida"]);
 	}
 	
 	static function getPartida() {
-		return unserialize($_COOKIE["partida"]);
+		return unserialize($_SESSION["partida"]);
 	}
 	
 	static function temPartida() {
-		return isset($_COOKIE["partida"]);
+		return isset($_SESSION["partida"]);
 	}
 	
 }

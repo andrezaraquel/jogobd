@@ -8,8 +8,6 @@
 	<meta property="og:image" content="http://mrdataanalyst.pe.hu/img/boneco-vencedor.png"> 
 	
 	<link href="css/paginaInicial.css" rel="stylesheet">
-	
-	
 </head>  
 <body>  
 
@@ -25,7 +23,7 @@ include_once("includes/navbar.php");
 			<div class='botoesIndex row' align="center">
 				<div class="col-sm-6 col-sm-offset-3" style="margin-top:20%">
 					<?php
-						if (isset($_SESSION["jogador"])) {
+						if (Jogador::temJogador()) {
 							echo "<a class='btn btn-lg btn-primary botaoInicial' href='classificados.php'>Jogar</a>";
 						} else{
 							echo "<a class='btn btn-lg btn-primary botaoInicial' href='#LoginModal' data-toggle='modal' >Jogar</a>";

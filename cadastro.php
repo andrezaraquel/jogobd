@@ -1,3 +1,9 @@
+<?php
+if (Jogador::temJogador()) {
+	header('Location: index.php');
+	exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -79,7 +85,7 @@ function validaCampo(){
 	} else {
 		$.ajax({
 			type: 'POST',
-			url: 'database/realizaCadastro.php',
+			url: 'database/cadastrar.php',
 			data: $("#formCadastro").serialize(),
 			success: function() {
 				window.location.href = 'comoJogar.php';

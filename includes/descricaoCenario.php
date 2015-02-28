@@ -4,6 +4,7 @@
 	</div>
 	<div style='position:absolute; top:35%; padding: 7% 1% 10% 1%; left: 30%; right: 32%; color:black; font-size: 90%; text-align: center;'> 
 	<?php
+		$cenario = Cenario::getCenario();
 		echo $cenario->getDescricao();
 	?>
 	</div>

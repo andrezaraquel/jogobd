@@ -10,16 +10,4 @@ if (!Jogador::temJogador()) { // se nao estiver logado...
 	header("location: index.php"); // ...vai para a pagina inicial.
 	exit;
 } 
-
-$jogador = Jogador::getJogador();
-
-if (Empresa::temEmpresa()) {
-	$empresa = Empresa::getEmpresa();
-}
-if (Partida::temPartida()) {
-	$partida = Partida::getPartida();
-}
-if (Cenario::temCenario()) {
-	$cenario = Cenario::getCenario();
-}
 ?>

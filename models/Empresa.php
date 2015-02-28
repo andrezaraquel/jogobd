@@ -29,20 +29,19 @@ class Empresa extends Model {
 	}
 	
 	function commit() {
-		setcookie("empresa", serialize($this), time()+3600*24*30, '/');
+		$_SESSION["empresa"] = serialize($this);
 	}
 	
 	function delete() {
-		unset($_COOKIE["empresa"]);
-		setcookie("empresa", null, -1, '/');
+		unset($_SESSION["empresa"]);
 	}
 	
 	static function getEmpresa() {
-		return unserialize($_COOKIE["empresa"]);
+		return unserialize($_SESSION["empresa"]);
 	}
 	
 	static function temEmpresa() {
-		return isset($_COOKIE["empresa"]);
+		return isset($_SESSION["empresa"]);
 	}
 	
 }
