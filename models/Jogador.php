@@ -17,7 +17,6 @@ class Jogador extends Model {
 		$this->login = $login;
 		$this->sexo = $sexo;
 		$this->nivel = $nivel;
-		$this->score = $score;
 	}
 	
 	function getNome() {

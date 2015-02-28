@@ -52,7 +52,7 @@ $(function() {
 			type: 'POST',
 			url: 'database/login.php',
 			data: $(this).serialize(),
-			success: function() {
+			success: function(data) {
 				window.location.href = "comoJogar.php";
 			},
 			error: function(data) {

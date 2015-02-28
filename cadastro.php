@@ -1,4 +1,5 @@
 <?php
+require_once("models/Jogador.php");
 if (Jogador::temJogador()) {
 	header('Location: index.php');
 	exit;
@@ -87,7 +88,7 @@ function validaCampo(){
 			type: 'POST',
 			url: 'database/cadastrar.php',
 			data: $("#formCadastro").serialize(),
-			success: function() {
+			success: function(data) {
 				window.location.href = 'comoJogar.php';
 			},
 			error: function(data) {

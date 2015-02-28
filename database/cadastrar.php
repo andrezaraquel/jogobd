@@ -19,8 +19,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 	mysql_close();
 	
-	$jogador = new Jogador($nome, $login, $sexo, 1);
-	$jogador->commmit();
+	$jogador = new Jogador($nome, $email, $sexo, 1);
+	$jogador->commit();
 	setcookie("comoJogar", false);
 }
 ?>
