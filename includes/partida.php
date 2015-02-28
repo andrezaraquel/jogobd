@@ -4,6 +4,7 @@ require_once("includes/models.php");
 $nivel = new Nivel($jogador->getNivel());
 $partida = new Partida($jogador->getNivel(), $empresa->getId());
 if ($partida->getNumCenarios() < 5) {
+	if (Cenario::temCenario()) $cenario->delete();
 	$partida->delete();
 	$empresa->delete();
 	echo '<script>
@@ -15,6 +16,7 @@ if ($partida->getNumCenarios() < 5) {
 	$cenario = new Cenario($empresa->getId(), $jogador->getNivel(), $partida->getCenarioAleatorio());
 	$cenario->commit();
 	$partida->commit();
+	$empresa->commit();
 }
 
 require_once("modals/avancar.php"); 

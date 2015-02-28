@@ -18,9 +18,9 @@
 <script type="text/javascript">
 function demissao() {
 	<?php 
-	setcookie("empresa", null);
-	setcookie("cenario", null);
-	setcookie("partida", null);
+	if (Empresa::temEmpresa()) $empresa->delete();
+	if (Cenario::temCenario()) $cenario->delete();
+	if (Partida::temPartida()) $partida->delete();
 	?>
 }
 </script>

@@ -37,5 +37,13 @@ class Empresa extends Model {
 		setcookie("empresa", null, -1, '/');
 	}
 	
+	static function getEmpresa() {
+		return unserialize($_COOKIE["empresa"]);
+	}
+	
+	static function temEmpresa() {
+		return isset($_COOKIE["empresa"]);
+	}
+	
 }
 ?>

@@ -29,6 +29,7 @@ $(function () {
 		success: function(data) {
 			var json = JSON.parse(data);
 			
+			console.log(json);
 			//----------------------
 			// COOKIE
 			//----------------------

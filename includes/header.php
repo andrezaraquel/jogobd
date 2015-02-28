@@ -13,7 +13,7 @@
 <?php
 	if (isset($_SESSION['jogador'])){
 		require_once('models/Jogador.php');
-		$jogador = unserialize($_SESSION['jogador']);
+		$jogador = Jogador::getJogador();
 		if ($jogador->getSexo() == 'feminino') {
 			echo "<link rel='stylesheet' type='text/css' href='css/feminino.css'/>";
 		} else {

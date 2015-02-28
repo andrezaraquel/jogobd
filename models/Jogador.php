@@ -78,5 +78,13 @@ class Jogador extends Model {
 		mysql_close();
 	}
 	
+	static function getJogador() {
+		return unserialize($_SESSION["jogador"]);
+	}
+	
+	static function temJogador() {
+		return isset($_SESSION["jogador"]);
+	}
+	
 }
 ?>

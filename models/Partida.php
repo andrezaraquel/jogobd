@@ -63,5 +63,13 @@ class Partida extends Model {
 		setcookie("partida", null, -1, '/');
 	}
 	
+	static function getPartida() {
+		return unserialize($_COOKIE["partida"]);
+	}
+	
+	static function temPartida() {
+		return isset($_COOKIE["partida"]);
+	}
+	
 }
 ?>

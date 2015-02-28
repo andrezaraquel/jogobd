@@ -16,6 +16,7 @@ $empresa = new Empresa($_GET['id_empresa']); // Criacao da sessao com o id da em
 $partida = new Partida($jogador->getNivel(), $_GET['id_empresa']);
 $empresa->commit();
 $partida->commit();
+$jogador->commit();
 ?>
 <div class="confirmaEmprego">	
 	<h4>Dados da Vaga:</h4>

@@ -48,5 +48,13 @@ class Cenario extends Model {
 		setcookie("cenario", null, -1, '/');
 	}
 	
+	static function getCenario() {
+		return unserialize($_COOKIE["cenario"]);
+	}
+	
+	static function temCenario() {
+		return isset($_COOKIE["cenario"]);
+	}
+	
 }
 ?>

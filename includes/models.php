@@ -6,20 +6,20 @@ foreach (glob(__DIR__ . "\..\models/*.php") as $filename){
     include_once($filename);
 }
 
-if (!isset($_SESSION["jogador"])) { // se nao estiver logado...
+if (!Jogador::temJogador()) { // se nao estiver logado...
 	header("location: index.php"); // ...vai para a pagina inicial.
 	exit;
 } 
 
-$jogador = unserialize($_SESSION["jogador"]);
+$jogador = Jogador::getJogador();
 
-if (isset($_COOKIE["empresa"])) {
-	$empresa = unserialize($_COOKIE["empresa"]);
+if (Empresa::temEmpresa()) {
+	$empresa = Empresa::getEmpresa();
 }
-if (isset($_COOKIE["partida"])) {
-	$partida = unserialize($_COOKIE["partida"]);
+if (Partida::temPartida()) {
+	$partida = Partida::getPartida();
 }
-if (isset($_COOKIE["cenario"])) {
-	$cenario = unserialize($_COOKIE["cenario"]);
+if (Cenario::temCenario()) {
+	$cenario = Cenario::getCenario();
 }
 ?>
