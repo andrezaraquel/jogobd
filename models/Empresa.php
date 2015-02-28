@@ -33,7 +33,8 @@ class Empresa extends Model {
 	}
 	
 	function delete() {
-		setcookie("empresa", null);
+		unset($_COOKIE["empresa"]);
+		setcookie("empresa", null, -1, '/');
 	}
 	
 }

@@ -44,7 +44,8 @@ class Cenario extends Model {
 	}
 	
 	function delete() {
-		setcookie("cenario", null);
+		unset($_COOKIE["cenario"]);
+		setcookie("cenario", null, -1, '/');
 	}
 	
 }

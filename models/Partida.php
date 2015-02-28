@@ -59,7 +59,8 @@ class Partida extends Model {
 	
 		
 	function delete() {
-		setcookie("partida", null);
+		unset($_COOKIE["partida"]);
+		setcookie("partida", null, -1, '/');
 	}
 	
 }
