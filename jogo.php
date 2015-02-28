@@ -15,6 +15,14 @@ $jogador = Jogador::getJogador();
 $partida = Partida::getPartida();
 $empresa = Empresa::getEmpresa();
 $nivel = new Nivel($jogador->getNivel());
+
+if (count($partida->getListaDeVitorias()) >= 5) {
+	$empresa->delete();
+	$partida->delete();
+	header('Location: classificados.php');
+	exit;
+}
+
 if ($partida->getNumCenarios() < 5) {
 	$partida->delete();
 	$empresa->delete();

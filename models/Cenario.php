@@ -17,10 +17,12 @@ class Cenario extends Model {
 		$this->dicaUm = $dadosCenario["dica1"];
 		$this->dicaDois = $dadosCenario["dica2"];
 		$dadosTabelas = mysql_query("SELECT nome FROM tabelas WHERE id_empresa = $empresaId AND id_nivel = $nivel AND id_cenario = $cenarioId");
-		$dadosTabelas = mysql_fetch_assoc($dadosTabelas);
-		$this->tabelas = $dadosTabelas["nome"];
-		if (!is_array($this->tabelas)) {
-			$this->tabelas = array($this->tabelas);
+		$this->tabelas = array();
+		while ($linha = mysql_fetch_assoc($dadosTabelas)) {
+			$tabela = $linha["nome"];
+			if (!is_array($tabela)) {
+				array_push($this->tabelas, $tabela);
+			}
 		}
 		mysql_close();
 	}
