@@ -15,6 +15,8 @@ require_once("includes/models.php");
 <?php 
 $_SESSION["navbar"] = "logout";
 include_once("includes/navbar.php");
+include_once("includes/models.php");
+$partida->delete();
 ?>
 
 <div class="row-fluid">
