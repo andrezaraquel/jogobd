@@ -5,10 +5,12 @@
 		</section>
 		</br>
 		<div class="modal-footer" align ='center'>
-			<div class="col-sm-12">						
-							
+			<div class="col-sm-12">												
+				<div style="float:left; padding-right:2px;">
+					<?php echo "<a href='https://twitter.com/share' class='twitter-share-button' data-url='http://mrdataanalyst.pe.hu' data-text='Minha pontuação foi de " . $jogador->getSalarioAtual() . "' data-lang='en' data-count='none' data-hashtags='ResultadoMrDataAnalyst,MinhaPontuacao'>Tweet</a>";?>
+				</div>				
+				<div style="float:left; padding-right:2px;" class="g-plusone" data-size="tall" data-annotation="none" data-href="http://www.mrdataanalyst.pe.hu"></div>			
 			</div>
-			
 		</div>
 	</div>			
 </div>

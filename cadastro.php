@@ -8,7 +8,11 @@ if (Jogador::temJogador()) {
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-	<?php include_once("includes/header.php"); ?>
+	<?php 
+	$_SESSION["navbar"] = "voltar";
+	include_once("includes/header.php"); 
+	include_once("includes/navbar.php");
+	?>
 	<link href="css/paginaInicial.css" rel="stylesheet">
 </head>
 <body>
