@@ -383,7 +383,11 @@ function fMeasure() {
 		measure = 2 * precision * recall / (precision + recall);
 	}
 	// retorna a parte inteira do percentual f-measure.
-	return parseInt(measure * 100);
+	var resultado = parseInt(measure * 100);
+	if(Number.isNaN(resultado)){
+		resultado = 0;
+	}
+	return resultado;
 }
 
 /*Funcao que mostra na tela o desempenho do jogador*/
@@ -402,9 +406,9 @@ function avancaCenario(){
 function avancar(tempoEsgotado){
 	if (($("#buttonAvancar")).hasClass("enable") || tempoEsgotado) { // verifica se o botao esta habilitado.
 		if (cenarioAtual == 5 && nivelAtual == 4){
-			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar disable' href = '#ModalAvancar'>Encerrar</a>";
+			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Encerrar' data-toggle='modal' class = 'botaoAvancar disable' data-target='#ModalAvancar'/>";
 		} else if(cenarioAtual == 5) {		
-			document.getElementById('divBotao').innerHTML = "<a id = 'buttonAvancar' data-toggle='modal' class = 'botaoAvancar disable' href = '#ModalAvancar'>Avançar</a>";
+			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' data-toggle='modal' class = 'botaoAvancar disable' data-target='#ModalAvancar'/>";
 		} else {
 			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onClick = 'avancaCenario()'/>";
 		}
@@ -457,10 +461,7 @@ function desenhaBarra(progresso) {
 		} else {
 			document.getElementById("fase"+i).setAttribute("class", "progress-bar progress-bar-danger");	
 		}
-	}
-	
-	$("#buttonAvancar").removeClass("disable");
-	$("#buttonAvancar").addClass("enable");
+	}	
 }
 
 function getListaDeVitorias(callback) {
@@ -470,8 +471,11 @@ function getListaDeVitorias(callback) {
 		success: function (data) {
 			desenhaBarra(data);
 			if (callback) {
-				callback();
+				callback();	
+				$("#buttonAvancar").removeClass("disable");
+				$("#buttonAvancar").addClass("enable");
 			}
+			
 		}
 	});	
 }
@@ -485,20 +489,26 @@ function preencheBarraDeProgresso(atualiza, callback) {
 }
 
 function jogadorAvancaDeNivel(callback) {
-	$.ajax({
-		type: "POST",
-		url: "database/avancaDeNivel.php",
-		success: function() {
-			callback();	
-		}	
-	});	
+	if (nivelAtual == 4) {
+		callback();
+	} else {
+		$.ajax({
+			type: "POST",
+			url: "database/avancaDeNivel.php",
+			success: function() {
+				callback();	
+			}	
+		});	
+	}	
 }
 
 function preencheModal(){
 	var jogadorVenceu = score >= 210 || (score >= 140 && $("#fase4").hasClass("progress-bar-success"));
-	if(jogadorVenceu && nivelAtual == 4){		
-		document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco-vencedor.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você conseguiu terminar todas as etapas.</h5><a class='btn btn-success' style='margin-left: 25%;' href='ranking.php'>Verificar o Ranking</a></div>";													
-	} else if(jogadorVenceu){
+	if (jogadorVenceu && nivelAtual == 4) {		
+		jogadorAvancaDeNivel(function() {
+			document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco-vencedor.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você conseguiu terminar todas as etapas.</h5><a class='btn btn-success' style='margin-left: 25%;' href='ranking.php'>Verificar o Ranking</a></div>";													
+		});
+	} else if (jogadorVenceu) {
 		jogadorAvancaDeNivel(function() {
 			document.getElementById("corpoModal").innerHTML = "<div><img src = 'img/boneco_promovido.png' style ='float:left;margin:0 20px 10px 10px;'>	<h5>Parabéns! Você obteve um desempenho bastante satisfatório. Por isso, foi promovido para <b>"+proximoNivel+"</b>!<h5><a class='btn btn-success' style='margin-left: 25%;' href='jogo.php'>Continuar o trabalho</a></div>";	
 		});										
