@@ -406,11 +406,11 @@ function avancaCenario(){
 function avancar(tempoEsgotado){
 	if (($("#buttonAvancar")).hasClass("enable") || tempoEsgotado) { // verifica se o botao esta habilitado.
 		if (cenarioAtual == 5 && nivelAtual == 4){
-			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Encerrar' data-toggle='modal' class = 'botaoAvancar disable' data-target='#ModalAvancar'/>";
+			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Encerrar' data-toggle='modal' class = 'botaoAvancar disable' data-target='#ModalAvancar'>";
 		} else if(cenarioAtual == 5) {		
-			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' data-toggle='modal' class = 'botaoAvancar disable' data-target='#ModalAvancar'/>";
+			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' data-toggle='modal' class = 'botaoAvancar disable' data-target='#ModalAvancar'>";
 		} else {
-			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onClick = 'avancaCenario()'/>";
+			document.getElementById('divBotao').innerHTML = "<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar disable' onClick = 'avancaCenario()'>";
 		}
 		
 		segundos = null; //pausa o tempo

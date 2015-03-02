@@ -29,14 +29,14 @@
 	background-color: #ff71b8 !important;
 }
 
-/* BotÃ£o volta*/
+/* Botao volta*/
 .media-carousel .carousel-control.left 
 {
   left: 1%;
   background-image: url("../img/seta-esquerdaf.png");
   z-index:1;
 }
-/* BotÃ£o adianta */
+/* Botao adianta */
 .media-carousel .carousel-control.right 
 {
   right: 2% !important;
@@ -74,6 +74,6 @@
 }
 
 .enable {
-background:#F06; 
-box-shadow:6px 2px 5px #000000;
+	background:#F06 !important; 
+	box-shadow:6px 2px 5px #000000 !important;
 }

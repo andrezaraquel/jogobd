@@ -72,6 +72,6 @@ color: blue;
 }
 
 .enable {
-background: blue; 
-box-shadow:6px 2px 5px #000000;
+background: blue !important; 
+box-shadow:6px 2px 5px #000000 !important;
 }

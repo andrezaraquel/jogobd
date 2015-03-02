@@ -1,8 +1,3 @@
-<!-- 
-Classe que representa cada partida jogada pelo usuario.
-
-authors: Andreza Raquel e Dandara Navarro
--->
 <?php
 require_once("includes/models.php");
 
@@ -149,7 +144,9 @@ require_once("modals/dica2.php");
 				?>
 					   
 				<!--Botao que avanca quando esta enable.Precisa redirecionar para outra pagina e verificar os erros e acertos do usuario.--->
-				<div id = 'divBotao'><input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar <?php if ($jogador->getNivel() <= 2) { echo("disable"); } else { echo("enable"); } ?>' onclick =  'avancar(<?php if ($jogador->getNivel() <= 2) { echo("false"); } else { echo("true"); } ?>)' action = 'mostraCenarios.php'/></div>
+				<div id = 'divBotao'>
+					<input type = 'button' id = 'buttonAvancar' value = 'Avançar' class = 'botaoAvancar <?php if ($jogador->getNivel() <= 2) { echo("disable"); } else { echo("enable"); } ?>' onclick =  'avancar(<?php if ($jogador->getNivel() <= 2) { echo("false"); } else { echo("true"); } ?>)' action = 'mostraCenarios.php'>
+				</div>
 
 				<div>
 					<div id = "divResultado"></div>
